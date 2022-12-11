@@ -2,14 +2,6 @@ from main_andre_lindo import *
 alcance_guerreiro = 1
 alcance_arqueiro = 2
 alcance_catapulta = 3
-1
-2
-3
-3
-2
-1
-
-
 
 def faz_turno_ataque():
     for i in range(6):

@@ -37,7 +37,6 @@ VIDA_CARTA_IAGO = PONTOS_DE_VIDA[3]
 VIDA_CARTA_AELOA = PONTOS_DE_VIDA[3]
 
 # Criando as cartas
-
 carta_danilo  = {'Classe': GUERREIRO, 'Nome': 'Danilo',  'Ataque': ATAQUE_CARTA_DANILO,  'Vida': VIDA_CARTA_DANILO}
 carta_bruna   = {'Classe': GUERREIRO, 'Nome': 'Bruna',   'Ataque': ATAQUE_CARTA_BRUNA,   'Vida': VIDA_CARTA_BRUNA}
 carta_luiza   = {'Classe': GUERREIRO, 'Nome': 'Luiza',   'Ataque': ATAQUE_CARTA_LUIZA,   'Vida': VIDA_CARTA_LUIZA}
@@ -49,7 +48,6 @@ carta_iago    = {'Classe': CATAPULTA, 'Nome': 'Iago',    'Ataque': ATAQUE_CARTA_
 carta_aeloa   = {'Classe': CATAPULTA, 'Nome': 'Aeloa',   'Ataque': ATAQUE_CARTA_AELOA,   'Vida': VIDA_CARTA_AELOA}
 
 # Inicializando o deck
-
 deck = [carta_danilo, carta_bruna, carta_luiza, carta_andre , carta_jessica, carta_gustavo, carta_ze, carta_iago, carta_aeloa]
 
 # A função abaixo é responsável por embaralhar as cartas para um jogador receber seu deck de cartas
@@ -64,7 +62,7 @@ def GerarDeckJogador(deck, nome_jogador):
     print("Entregando o deck embaralhando do jogador: "+nome_jogador)
     return mao_jogador
 
-deck_jogador1 = GerarDeckJogador(deck, j1)
+#deck_jogador1 = GerarDeckJogador(deck, j1)
 # print(deck_jogador1)
 
 N_CARTAS_INICIAL = 5
@@ -83,10 +81,10 @@ As duas linhas abaixo são responsáveis por receber o retorno da função Gerar
 e para printar a mensagem apenas uma vez, optei por criar uma variavel chamada "vetor_mao_inicial_e_deck_atual"
 que é uma lista com os dois valores, depois atribuo esses valores para as variaveis de interesse
 '''
-vetor_mao_inicial_e_deck_atual = GerarMãoInicial(deck_jogador1, N_CARTAS_INICIAL, j1)
-mao_inicial, deck_atual = vetor_mao_inicial_e_deck_atual[0], vetor_mao_inicial_e_deck_atual[1]
+#vetor_mao_inicial_e_deck_atual = GerarMãoInicial(deck_jogador1, N_CARTAS_INICIAL, j1)
+#mao_inicial, deck_atual = vetor_mao_inicial_e_deck_atual[0], vetor_mao_inicial_e_deck_atual[1]
 
-print(deck_atual)
+#print(deck_atual)
 
 # A função abaixo mostra a mão atual de maneira mais amigável
 def ApresentarMaoAtual(mao_atual, nome_jogador):
@@ -99,7 +97,7 @@ def ApresentarMaoAtual(mao_atual, nome_jogador):
         print(str(cont)+'. '+carta['Nome']+': Classe: '+carta['Classe']+' | ATK: '+str(carta['Ataque'])+' | VIDA: '+str(carta['Vida']))
         cont += 1
 
-ApresentarMaoAtual(mao_inicial, j1)
+#ApresentarMaoAtual(mao_inicial, j1)
 
 # A função Sacar retira uma carta do deck do jogador e põe essa mesma carta na sua mao atual
 def Sacar(mao_atual, deck_atual, nome_jogador):
@@ -112,12 +110,12 @@ def Sacar(mao_atual, deck_atual, nome_jogador):
     print('')
 
 
-Sacar(mao_inicial, deck_atual, j1)
-ApresentarMaoAtual(mao_inicial, j1)
+#Sacar(mao_inicial, deck_atual, j1)
+#ApresentarMaoAtual(mao_inicial, j1)
 
 def PreparaParaPosicionar(mao_atual, nome_jogador, index):
     carta_retirada = mao_atual.pop(index)
     return carta_retirada
 
-print(PreparaParaPosicionar(mao_inicial, j1, 0))
-ApresentarMaoAtual(mao_inicial, j1)
+#print(PreparaParaPosicionar(mao_inicial, j1, 0))
+#ApresentarMaoAtual(mao_inicial, j1)
