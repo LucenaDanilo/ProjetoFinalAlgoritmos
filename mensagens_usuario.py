@@ -1,3 +1,4 @@
+from time import sleep
 
 def MensagemInicial():
     print("Iniciando o Jogo"+"\n")
@@ -41,7 +42,7 @@ def PularTutorial():
             print("")
             return False
         else:
-            input("Por gentileza, envie 'S' para sim ou 'N' para nao")
+            resposta = input("Por gentileza, envie 'S' para sim ou 'N' para nao")
 
 def InstrucoesIniciais():
     input("O nosso jogo eh um jogo de cartas com interações/batalhas dentro de um tabuleiro 5x6")
@@ -74,3 +75,12 @@ def MensagensIniciaisJogo(pulou):
     print("Nesse momento, ambos os decks serao embaralhados")
     print("e as maos serão servidas aos jogadores"+'\n')
     input()
+
+def MensagemMaoInicial():
+    print("Os decks de ambos os jogadores ja foram embaralhados!")
+    sleep(1)
+    input("Envie qualquer mensagem para dar inicio as distribuicoes das cartas iniciais dos jogadores"+'\n')
+
+def MensagemTurno(jogador_turno, lista_nome_jogadores):
+    input(f"Agora é o turno do jogador {jogador_turno+1}: {lista_nome_jogadores[jogador_turno]}"+'\n')
+

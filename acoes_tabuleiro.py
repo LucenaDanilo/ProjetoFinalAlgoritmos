@@ -1,24 +1,24 @@
-"""3 por 4 """
-numero_colunas = 5
-numero_linhas = 6
-
+from time import sleep
+from constantes import * 
 
 # FAZ A MATRIZ DO TABULEIRO
-def faz_tabuleiro():
+def FazerTabuleiro():
     matriz = []
-    for i in range(numero_linhas):
+    for i in range(NUMERO_LINHAS):
         lista = []
-        for c in range(numero_colunas):
+        for c in range(NUMERO_COLUNAS):
             lista.append(" ")
         matriz.append(lista)
     return matriz
 # PRINTA O TABULEIRO
-def printar_tabuleiro(tabuleiro):
+def PrintarTabuleiro(tabuleiro, j1, j2):
     numeros_verticais = [1,2,3,3,2,1]
     indice = 0
+    sleep(2)
     for i in range(len(tabuleiro)):
         if i == 3:
-            print(f"{jogador_1} \n  x\n{jogador_2}")
+            espacos = " "*28
+            print(f"{espacos}{j1} \n{espacos}  x\n{espacos}{j2}")
             #print("―――――――――――――――――――――――――――")
         if i == 0:
             print("     Colunas", end="")
@@ -42,7 +42,26 @@ def printar_tabuleiro(tabuleiro):
             print("     Colunas", end="")
             print(" " * 10, end="")
             print("A   B   C   D   E")
-jogador_1 = 'andre'
-jogador_2 = 'danilo'
+    print()
+    
 #tabuleiro = faz_tabuleiro()
 #printar_tabuleiro(tabuleiro)
+
+def PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores):
+    j1 = nomes_jogadores[0]
+    j2 = nomes_jogadores[1]
+    PrintarTabuleiro(tabuleiro, j1, j2)
+    print("Ex: Para posicionar uma carta na coluna A e linha 1 digite: 'A1'")
+    posicao = input("Qual a posicao que voce gostaria de inserir sua carta? Coluna/linha"+'\n')
+    
+    # Verificando se a entrada foi uma jogada válida
+    while True:
+        if len(posicao) != 2:
+            posicao = input("Por favor, insira uma entrada de tamanho valido"+'\n')
+        elif posicao[0].upper() not in COL_VALIDA:
+            posicao = input("Por favor, uma coluna valida"+'\n')
+        elif posicao[1] not in LINHA_VALIDA:
+            posicao = input("Por favor, insira uma linha valida"+'\n')
+        else:
+            break
+    
