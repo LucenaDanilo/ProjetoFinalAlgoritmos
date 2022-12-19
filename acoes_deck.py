@@ -49,6 +49,9 @@ carta_ze      = {'Classe': CATAPULTA, 'Nome': 'Ze',      'Ataque': ATAQUE_CARTA_
 carta_iago    = {'Classe': CATAPULTA, 'Nome': 'Iago',    'Ataque': ATAQUE_CARTA_IAGO,    'Vida': VIDA_CARTA_IAGO}
 carta_aeloa   = {'Classe': CATAPULTA, 'Nome': 'Aeloa',   'Ataque': ATAQUE_CARTA_AELOA,   'Vida': VIDA_CARTA_AELOA}
 
+# Setando os alcances
+alcances = {GUERREIRO: 1, ARQUEIRO: 2, CATAPULTA: 3}
+
 # Inicializando o deck
 deck = [carta_danilo, carta_bruna, carta_luiza, carta_andre , carta_jessica, carta_gustavo, carta_ze, carta_iago, carta_aeloa]
 

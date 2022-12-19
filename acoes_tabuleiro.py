@@ -1,5 +1,6 @@
 from time import sleep
 from constantes import * 
+from acoes_deck import alcances
 
 # FAZ A MATRIZ DO TABULEIRO
 def FazerTabuleiro():
@@ -10,6 +11,7 @@ def FazerTabuleiro():
             lista.append(" ")
         matriz.append(lista)
     return matriz
+
 # PRINTA O TABULEIRO
 def PrintarTabuleiro(tabuleiro, j1, j2):
     numeros_verticais = [1,2,3,3,2,1]
@@ -54,14 +56,26 @@ def PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores):
     print("Ex: Para posicionar uma carta na coluna A e linha 1 digite: 'A1'")
     posicao = input("Qual a posicao que voce gostaria de inserir sua carta? Coluna/linha"+'\n')
     
+    # Separando a linha da coluna na entrada
+    col = posicao[0]
+    row = posicao[1]
+
     # Verificando se a entrada foi uma jogada válida
     while True:
         if len(posicao) != 2:
             posicao = input("Por favor, insira uma entrada de tamanho valido"+'\n')
-        elif posicao[0].upper() not in COL_VALIDA:
+        elif col.upper() not in COL_VALIDA:
             posicao = input("Por favor, uma coluna valida"+'\n')
-        elif posicao[1] not in LINHA_VALIDA:
+        elif row not in LINHA_VALIDA:
             posicao = input("Por favor, insira uma linha valida"+'\n')
         else:
             break
-    
+
+    # Verificando a posição relacionada a classe da carta
+    while True:
+        row = posicao[1]
+        alcance_padrao_classe = alcances[carta_escolhida["Classe"].capitalize()]
+        if alcance_padrao_classe != int(row):
+            posicao = input("Sua carta nao pode ser colocada nessa linha! Ela nao tem esse alcance"+'\n')
+        else:
+            break
