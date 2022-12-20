@@ -39,7 +39,7 @@ VIDA_CARTA_IAGO = PONTOS_DE_VIDA[3]
 VIDA_CARTA_AELOA = PONTOS_DE_VIDA[3]
 
 # Criando as cartas
-carta_danilo  = {'Classe': GUERREIRO, 'Nome': 'Danilo',  'Ataque': ATAQUE_CARTA_DANILO,  'Vida': VIDA_CARTA_DANILO}
+carta_danilo  = {'Classe': GUERREIRO, 'Nome': 'Danilo',  'Ataque': ATAQUE_CARTA_DANILO,  'Vida': VIDA_CARTA_DANILO, 'Turma': 'Henrique'}
 carta_bruna   = {'Classe': GUERREIRO, 'Nome': 'Bruna',   'Ataque': ATAQUE_CARTA_BRUNA,   'Vida': VIDA_CARTA_BRUNA}
 carta_luiza   = {'Classe': GUERREIRO, 'Nome': 'Luiza',   'Ataque': ATAQUE_CARTA_LUIZA,   'Vida': VIDA_CARTA_LUIZA}
 carta_andre   = {'Classe': ARQUEIRO,  'Nome': 'Andre',   'Ataque': ATAQUE_CARTA_ANDRE,   'Vida': VIDA_CARTA_ANDRE}
@@ -65,7 +65,7 @@ def GerarDeckJogador(deck, nome_jogador):
         deck_jogador.append(deck_temp.pop(numero_sorteado-1))
     
     print("Entregando o deck embaralhado do jogador: "+nome_jogador+" \n")
-    # sleep(2)
+    #sleep(2)
     return deck_jogador
 
 #deck_jogador1 = GerarDeckJogador(deck, j1)
@@ -75,7 +75,7 @@ def GerarDeckJogador(deck, nome_jogador):
 def GerarMãoInicial(deck_jogador, n_cartas, nome_jogador):
     mao_inicial = deepcopy(deck_jogador[0:n_cartas])
     deck_jogador = deck_jogador[n_cartas:]
-    # sleep(2)
+    #sleep(2)
 
     print('A mao inicial do jogador '+nome_jogador+' foi entregue!'+"\n")
 
@@ -99,10 +99,8 @@ def ApresentarMaoAtual(mao_atual, nome_jogador):
     cont = 1
     for carta in mao_atual:
         print(str(cont)+'. '+carta['Nome']+': Classe: '+carta['Classe']+' | ATK: '+str(carta['Ataque'])+' | VIDA: '+str(carta['Vida']))
-        # sleep(0.8)
+        #sleep(0.8)
         cont += 1
-
-#ApresentarMaoAtual(mao_inicial, j1)
 
 # A função Sacar retira uma carta do deck do jogador e põe essa mesma carta na sua mao atual
 def Sacar(mao_atual, deck_atual, nome_jogador):
@@ -114,17 +112,10 @@ def Sacar(mao_atual, deck_atual, nome_jogador):
     input('O jogador: '+nome_jogador+' acaba de sacar uma carta do seu deck')
     print('')
 
-
-#Sacar(mao_inicial, deck_atual, j1)
-#ApresentarMaoAtual(mao_inicial, j1)
-
-#print(PreparaParaPosicionar(mao_inicial, j1, 0))
-#ApresentarMaoAtual(mao_inicial, j1)
-
 def ReceberCartaEscolhida(mao_atual, nome_jogador):
     print()
     indice_carta = input(nome_jogador+", escolha o numero da carta a ser jogada"+"\n").strip()
-    # sleep(1)
+    #sleep(1)
 
     while True:
         if indice_carta not in INDICE_CARTA_POSSIVEL:

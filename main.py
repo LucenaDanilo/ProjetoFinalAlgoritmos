@@ -4,7 +4,7 @@ from mensagens_usuario import *
 from constantes import *
 
 # Iniciando o Jogo
-MensagemInicial()
+#MensagemInicial()
 
 # Recebendo o nome dos jogadores
 j1: str = 'Danilo'
@@ -27,8 +27,6 @@ v1, v2 = VIDA_INICIAL_JOGADORES, VIDA_INICIAL_JOGADORES
 # Inicianlizando os decks dos jogadores
 #if pular == True:
 #    pass
-#else:
-#    pass
 
 # Retirando os decks do j1 e j2 a partir de um deck base
 deck_jogo = deck
@@ -44,6 +42,7 @@ listas_maos  = [mao_j1, mao_j2]
 
 # Criando e exibindo o tabuleiro
 tabuleiro = FazerTabuleiro()
+matriz_cartas = FazerMatrizCartas()
 PrintarTabuleiro(tabuleiro, j1, j2)
 
 # Dando inicio ao jogo
@@ -66,9 +65,11 @@ while True:
     ApresentarMaoAtual(mao_jogador, nome_jogador)
 
     carta_escolhida = ReceberCartaEscolhida(mao_jogador, nome_jogador)
-    PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores)
+    tabuleiro = PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas)
 
-    v1 -= 30
+    tabuteiro = Batalha(tabuleiro, j1, j2, jogador_turno, matriz_cartas)
+
+    v1 -= 2
     if v1 <= 0 or v2 <= 0:
         break
 
