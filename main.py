@@ -61,13 +61,16 @@ while True:
 
     # Dando início ao turno, sacando e apresentando a mão atual do jogador da vez
     MensagemTurno(indice_jogador_turno, nomes_jogadores)
-    Sacar(mao_jogador, deck_jogador, nome_jogador)
+    mao_jogador, deck_jogador = Sacar(mao_jogador, deck_jogador, nome_jogador)
     ApresentarMaoAtual(mao_jogador, nome_jogador)
 
+    # Recebendo a carta e posicionando ela no tabuleiro
     carta_escolhida = ReceberCartaEscolhida(mao_jogador, nome_jogador)
-    tabuleiro = PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas)
+    tabuleiro, matriz_cartas = PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas)
 
-    tabuteiro = Batalha(tabuleiro, j1, j2, jogador_turno, matriz_cartas)
+    # Garantindo que a batalha só acontece após os dois jogadores jogarem
+    if jogador_turno == 2:
+        tabuteiro, matriz_cartas = Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2)
 
     v1 -= 2
     if v1 <= 0 or v2 <= 0:

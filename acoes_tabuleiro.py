@@ -84,6 +84,7 @@ def PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, 
         alcance_padrao_classe = alcances[carta_escolhida["Classe"].capitalize()]
         if alcance_padrao_classe != int(row):
             posicao = input(f"Sua carta nao pode ser colocada nessa linha! Ela nao tem esse alcance, o alcance da carta é {alcance_padrao_classe}"+'\n')
+            continue
         
         # Ajustando para o j1 e j2
         if jogador_turno == 1:
@@ -115,27 +116,48 @@ def PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, 
     #sleep(2)
     tabuleiro[linha][colunas[col]] = carta_escolhida["Nome"][0]+" "+(" "*ajuste_espaco_branco)+str(carta_escolhida["Ataque"])+"/"+str(carta_escolhida["Vida"])
     matriz_cartas[linha][colunas[col]] = carta_escolhida
-    print(matriz_cartas)
     PrintarTabuleiro(tabuleiro, j1, j2)
-    return tabuleiro
+    return [tabuleiro, matriz_cartas]
 
-def Batalha(tabuleiro, j1, j2, jogador_turno, matriz_cartas):
+
+def PosicionarPosDanos(tabuleiro, matriz_cartas, linha, col, carta):
+
+    ajuste_espaco_branco = 4 - (len(str(carta["Vida"]))+len(str(carta["Ataque"])))
+
+    tabuleiro[linha][col] = carta["Nome"][0]+" "+(" "*ajuste_espaco_branco)+str(carta["Ataque"])+"/"+str(carta["Vida"])
+    matriz_cartas[linha][col] = carta
+    return [tabuleiro, matriz_cartas]
+
+def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
     input("Agora iniciaremos a batalha")
 
     for row in range(len(tabuleiro)):
-        for casa in range(len(tabuleiro[row])):
-            if matriz_cartas[row][casa] != 0:
-                achou = False
-                for i in range(alcances[matriz_cartas[row][casa]["Classe"]]):        
-                    if jogador_turno == 1:
-                        if matriz_cartas[3+i][casa] != 0: # Tem uma carta na coluna
-                            achou = True
-                            matriz_cartas[3+i][casa]["Vida"] -= matriz_cartas[row][casa]["Ataque"]
+        for col in range(len(tabuleiro[row])):
+            carta_na_posicao = matriz_cartas[row][col]
+            if carta_na_posicao != 0: # Existe uma carta naquele lugar
+                achou_inimigo = False
+                alcance_da_carta_na_posicao = alcances[matriz_cartas[row][col]["Classe"]]
+                for i in range(alcance_da_carta_na_posicao):        
+                    if row < 3: # A carta atacante é do j1
+                        carta_inimiga = matriz_cartas[3+i][col]
+                        if carta_inimiga != 0: # Tem um inimigo ali
+                            achou_inimigo = True
+                            # O atacante inflige dano no atacado
+                            matriz_cartas[3+i][col]["Vida"] -= matriz_cartas[row][col]["Ataque"] 
+
+                            # Verificando se a carta morreu
+                            if matriz_cartas[3+i][col]["Vida"] > 0:
+                                tabuleiro, matriz_cartas = PosicionarPosDanos(tabuleiro, matriz_cartas, 3+i, col, matriz_cartas[3+i][col])
+                            else:  
+                                matriz_cartas[3+i][col] = 0
+                                tabuleiro[3+i][col] = " "*7
                             break
-                    elif jogador_turno == 2:
+                    elif row >= 3: # A carta atacante é do j2
                         pass
-                if not achou:
-                    print("DANO NA CABEÇA DO CARA")
+                if not achou_inimigo:
+                    # Se não encontrou ninguém, vai bater no inimigo
+                    v2 -= matriz_cartas[row][col]["Ataque"] 
+                    print(f'batando na cabeça do j2, vida atual: {v2}')
     
     PrintarTabuleiro(tabuleiro, j1, j2)   
-    return tabuleiro
+    return [tabuleiro, matriz_cartas]
