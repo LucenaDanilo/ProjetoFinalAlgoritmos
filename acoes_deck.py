@@ -14,7 +14,7 @@ CATAPULTA = 'Catapulta'
 
 # As cartas só poderão ter esses valores de ataque ou vida
 PONTOS_DE_ATAQUE = [1, 2, 3, 5, 8]    # Possíveis pontos de ATAQUE para as cartas
-PONTOS_DE_VIDA   = [4, 8, 12, 16, 18] # Possíveis pontos de VIDA para as cartas
+PONTOS_DE_VIDA   = [20, 8, 12, 16, 18] # Possíveis pontos de VIDA para as cartas
 
 # Atribuindo os valores de ataques das cartas existentes
 ATAQUE_CARTA_DANILO = PONTOS_DE_ATAQUE[0]
@@ -111,6 +111,7 @@ def Sacar(mao_atual, deck_atual, nome_jogador):
     print('')
     input('O jogador: '+nome_jogador+' acaba de sacar uma carta do seu deck')
     print('')
+    return [mao_atual, deck_atual]
 
 def ReceberCartaEscolhida(mao_atual, nome_jogador):
     print()
