@@ -2,58 +2,11 @@ from random import randrange
 from copy import deepcopy
 from constantes import *
 from time import sleep
+from cartas import *
 
 # Iniciando os Jogadores
 j1 = 'Danilo'
 j2 = 'André'
-
-# Iniciando as constantes
-GUERREIRO = 'Guerreiro'
-ARQUEIRO = 'Arqueiro'
-CATAPULTA = 'Catapulta'
-
-# As cartas só poderão ter esses valores de ataque ou vida
-PONTOS_DE_ATAQUE = [1, 2, 3, 5, 8]    # Possíveis pontos de ATAQUE para as cartas
-PONTOS_DE_VIDA   = [20, 8, 12, 16, 18] # Possíveis pontos de VIDA para as cartas
-
-# Atribuindo os valores de ataques das cartas existentes
-ATAQUE_CARTA_DANILO = PONTOS_DE_ATAQUE[0]
-ATAQUE_CARTA_BRUNA = PONTOS_DE_ATAQUE[0]
-ATAQUE_CARTA_LUIZA = PONTOS_DE_ATAQUE[0]
-ATAQUE_CARTA_ANDRE = PONTOS_DE_ATAQUE[4]
-ATAQUE_CARTA_JESSICA = PONTOS_DE_ATAQUE[4]
-ATAQUE_CARTA_GUSTAVO = PONTOS_DE_ATAQUE[4]
-ATAQUE_CARTA_ZE = PONTOS_DE_ATAQUE[3]
-ATAQUE_CARTA_IAGO = PONTOS_DE_ATAQUE[3]
-ATAQUE_CARTA_AELOA = PONTOS_DE_ATAQUE[3]
-
-# Atribuindo os valores de vidas das cartas existentes
-VIDA_CARTA_DANILO = PONTOS_DE_VIDA[0]
-VIDA_CARTA_BRUNA = PONTOS_DE_VIDA[0]
-VIDA_CARTA_LUIZA = PONTOS_DE_VIDA[0]
-VIDA_CARTA_ANDRE = PONTOS_DE_VIDA[4]
-VIDA_CARTA_JESSICA = PONTOS_DE_VIDA[4]
-VIDA_CARTA_GUSTAVO = PONTOS_DE_VIDA[4]
-VIDA_CARTA_ZE = PONTOS_DE_VIDA[3]
-VIDA_CARTA_IAGO = PONTOS_DE_VIDA[3]
-VIDA_CARTA_AELOA = PONTOS_DE_VIDA[3]
-
-# Criando as cartas
-carta_danilo  = {'Classe': GUERREIRO, 'Nome': 'Danilo',  'Ataque': ATAQUE_CARTA_DANILO,  'Vida': VIDA_CARTA_DANILO, 'Turma': 'Henrique'}
-carta_bruna   = {'Classe': GUERREIRO, 'Nome': 'Bruna',   'Ataque': ATAQUE_CARTA_BRUNA,   'Vida': VIDA_CARTA_BRUNA}
-carta_luiza   = {'Classe': GUERREIRO, 'Nome': 'Luiza',   'Ataque': ATAQUE_CARTA_LUIZA,   'Vida': VIDA_CARTA_LUIZA}
-carta_andre   = {'Classe': ARQUEIRO,  'Nome': 'Andre',   'Ataque': ATAQUE_CARTA_ANDRE,   'Vida': VIDA_CARTA_ANDRE}
-carta_jessica = {'Classe': ARQUEIRO,  'Nome': 'Jessica', 'Ataque': ATAQUE_CARTA_JESSICA, 'Vida': VIDA_CARTA_JESSICA}
-carta_gustavo = {'Classe': ARQUEIRO,  'Nome': 'Gustavo', 'Ataque': ATAQUE_CARTA_GUSTAVO, 'Vida': VIDA_CARTA_GUSTAVO}
-carta_ze      = {'Classe': CATAPULTA, 'Nome': 'Ze',      'Ataque': ATAQUE_CARTA_ZE,      'Vida': VIDA_CARTA_ZE}
-carta_iago    = {'Classe': CATAPULTA, 'Nome': 'Iago',    'Ataque': ATAQUE_CARTA_IAGO,    'Vida': VIDA_CARTA_IAGO}
-carta_aeloa   = {'Classe': CATAPULTA, 'Nome': 'Aeloa',   'Ataque': ATAQUE_CARTA_AELOA,   'Vida': VIDA_CARTA_AELOA}
-
-# Setando os alcances
-alcances = {GUERREIRO: 1, ARQUEIRO: 2, CATAPULTA: 3}
-
-# Inicializando o deck
-deck = [carta_danilo, carta_bruna, carta_luiza, carta_andre , carta_jessica, carta_gustavo, carta_ze, carta_iago, carta_aeloa]
 
 # A função abaixo é responsável por embaralhar as cartas para um jogador receber seu deck de cartas
 def GerarDeckJogador(deck, nome_jogador):
@@ -98,7 +51,10 @@ def ApresentarMaoAtual(mao_atual, nome_jogador):
 
     cont = 1
     for carta in mao_atual:
-        print(str(cont)+'. '+carta['Nome']+': Classe: '+carta['Classe']+' | ATK: '+str(carta['Ataque'])+' | VIDA: '+str(carta['Vida']))
+        if carta["Classe"] != FEITICO:
+            print(str(cont)+'. '+carta['Nome']+': Classe: '+carta['Classe']+' | ATK: '+str(carta['Ataque'])+' | VIDA: '+str(carta['Vida']))
+        else:
+            print(str(cont)+'. '+carta['Nome']+': Classe: '+carta['Classe']+" | Ação: "+str(carta["Acao"]))
         #sleep(0.8)
         cont += 1
 

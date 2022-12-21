@@ -1,6 +1,7 @@
 from time import sleep
 from constantes import * 
 from acoes_deck import alcances
+from random import randrange
 
 # FAZ A MATRIZ DO TABULEIRO
 def FazerTabuleiro():
@@ -56,8 +57,27 @@ def PrintarTabuleiro(tabuleiro, j1, j2):
             print("A         B         C         D         E")
     print()
     
-#tabuleiro = faz_tabuleiro()
-#printar_tabuleiro(tabuleiro)
+general1 = 'G. H 50'
+general2 = 'G. I 65'
+def colocar_general(tabuleiro):
+    lista = []
+    matriz_mov_inicial = []
+
+    a = randrange(4)
+    b = randrange(2)
+    c = randrange(3, 4, 5)
+    d = randrange(4)
+    tabuleiro[b][a] = general1
+    lista.append(b)
+    lista.append(a)
+    matriz_mov_inicial.append(lista)
+    lista = []
+    tabuleiro[c][d] = general2
+    lista.append(c)
+    lista.append(d)
+    matriz_mov_inicial.append(lista)
+    print(lista)
+    return tabuleiro
 
 def PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas):
     j1 = nomes_jogadores[0]
@@ -119,7 +139,6 @@ def PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, 
     PrintarTabuleiro(tabuleiro, j1, j2)
     return [tabuleiro, matriz_cartas]
 
-
 def PosicionarPosDanos(tabuleiro, matriz_cartas, linha, col, carta):
 
     ajuste_espaco_branco = 4 - (len(str(carta["Vida"]))+len(str(carta["Ataque"])))
@@ -134,6 +153,7 @@ def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
     for row in range(len(tabuleiro)):
         for col in range(len(tabuleiro[row])):
             carta_na_posicao = matriz_cartas[row][col]
+
             if carta_na_posicao != 0: # Existe uma carta naquele lugar
                 achou_inimigo = False
                 alcance_da_carta_na_posicao = alcances[matriz_cartas[row][col]["Classe"]]
@@ -161,3 +181,6 @@ def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
     
     PrintarTabuleiro(tabuleiro, j1, j2)   
     return [tabuleiro, matriz_cartas]
+
+
+

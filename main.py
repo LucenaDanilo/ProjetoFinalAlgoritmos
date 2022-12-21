@@ -43,6 +43,7 @@ listas_maos  = [mao_j1, mao_j2]
 # Criando e exibindo o tabuleiro
 tabuleiro = FazerTabuleiro()
 matriz_cartas = FazerMatrizCartas()
+tabuleiro = colocar_general(tabuleiro)
 PrintarTabuleiro(tabuleiro, j1, j2)
 
 # Dando inicio ao jogo
@@ -56,16 +57,17 @@ while True:
 
     # Inicializando três variáveis para o jogador do turno
     nome_jogador = nomes_jogadores[indice_jogador_turno]
-    mao_jogador = listas_maos[indice_jogador_turno]
-    deck_jogador = listas_decks[indice_jogador_turno]
+    # mao_jogador = listas_maos[indice_jogador_turno]
+    # deck_jogador = listas_decks[indice_jogador_turno]
 
     # Dando início ao turno, sacando e apresentando a mão atual do jogador da vez
     MensagemTurno(indice_jogador_turno, nomes_jogadores)
-    mao_jogador, deck_jogador = Sacar(mao_jogador, deck_jogador, nome_jogador)
-    ApresentarMaoAtual(mao_jogador, nome_jogador)
+
+    listas_maos[indice_jogador_turno], listas_decks[indice_jogador_turno] = Sacar(listas_maos[indice_jogador_turno], listas_decks[indice_jogador_turno], nome_jogador)
+    ApresentarMaoAtual(listas_maos[indice_jogador_turno], nome_jogador)
 
     # Recebendo a carta e posicionando ela no tabuleiro
-    carta_escolhida = ReceberCartaEscolhida(mao_jogador, nome_jogador)
+    carta_escolhida = ReceberCartaEscolhida(listas_maos[indice_jogador_turno], nome_jogador)
     tabuleiro, matriz_cartas = PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas)
 
     # Garantindo que a batalha só acontece após os dois jogadores jogarem
@@ -78,3 +80,5 @@ while True:
 
     jogador_turno += 1
     indice_jogador_turno += 1
+
+print('fim de jogo')
