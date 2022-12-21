@@ -9,7 +9,7 @@ j1 = 'Danilo'
 j2 = 'André'
 
 # A função abaixo é responsável por embaralhar as cartas para um jogador receber seu deck de cartas
-def GerarDeckJogador(deck, nome_jogador):
+def gerar_deck_jogador(deck, nome_jogador):
     deck_temp = deepcopy(deck)
     deck_jogador = []
 
@@ -18,17 +18,17 @@ def GerarDeckJogador(deck, nome_jogador):
         deck_jogador.append(deck_temp.pop(numero_sorteado-1))
     
     print("Entregando o deck embaralhado do jogador: "+nome_jogador+" \n")
-    #sleep(2)
+    sleep(2)
     return deck_jogador
 
 #deck_jogador1 = GerarDeckJogador(deck, j1)
 # print(deck_jogador1)
 
 # A função GerarMãoInicial retira do deck 5 cartas para o jogador iniciar seu jogo
-def GerarMãoInicial(deck_jogador, n_cartas, nome_jogador):
+def gerar_mao_inicial(deck_jogador, n_cartas, nome_jogador):
     mao_inicial = deepcopy(deck_jogador[0:n_cartas])
     deck_jogador = deck_jogador[n_cartas:]
-    #sleep(2)
+    sleep(2)
 
     print('A mao inicial do jogador '+nome_jogador+' foi entregue!'+"\n")
 
@@ -45,17 +45,17 @@ que é uma lista com os dois valores, depois atribuo esses valores para as varia
 #print(deck_atual)
 
 # A função abaixo mostra a mão atual de maneira mais amigável
-def ApresentarMaoAtual(mao_atual, nome_jogador):
+def apresentar_mao_atual(mao_atual, nome_jogador):
     print(nome_jogador+', sua mao atual eh a seguinte:')
     print('')
 
     cont = 1
     for carta in mao_atual:
         if carta["Classe"] != FEITICO:
-            print(str(cont)+'. '+carta['Nome']+': Classe: '+carta['Classe']+' | ATK: '+str(carta['Ataque'])+' | VIDA: '+str(carta['Vida']))
+            print(str(cont)+'. '+carta['Nome']+' | Classe: '+carta['Classe']+' | ATK: '+str(carta['Ataque'])+' | VIDA: '+str(carta['Vida']))
         else:
-            print(str(cont)+'. '+carta['Nome']+': Classe: '+carta['Classe']+" | Ação: "+str(carta["Acao"]))
-        #sleep(0.8)
+            print(str(cont)+'. '+carta['Nome']+' | Classe: '+carta['Classe']+" | Ação: "+str(carta["Acao"]))
+        sleep(0.5)
         cont += 1
 
 # A função Sacar retira uma carta do deck do jogador e põe essa mesma carta na sua mao atual
@@ -72,7 +72,7 @@ def Sacar(mao_atual, deck_atual, nome_jogador):
 def ReceberCartaEscolhida(mao_atual, nome_jogador):
     print()
     indice_carta = input(nome_jogador+", escolha o numero da carta a ser jogada"+"\n").strip()
-    #sleep(1)
+    sleep(1)
 
     while True:
         if indice_carta not in INDICE_CARTA_POSSIVEL:

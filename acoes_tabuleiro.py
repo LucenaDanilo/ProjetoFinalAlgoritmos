@@ -4,7 +4,7 @@ from acoes_deck import alcances
 from random import randrange
 
 # FAZ A MATRIZ DO TABULEIRO
-def FazerTabuleiro():
+def fazer_tabuleiro():
     matriz = []
     for i in range(NUMERO_LINHAS):
         lista = []
@@ -13,7 +13,7 @@ def FazerTabuleiro():
         matriz.append(lista)
     return matriz
 
-def FazerMatrizCartas():
+def fazer_matriz_cartas():
     matriz = []
     for i in range(NUMERO_LINHAS):
         lista = []
@@ -23,10 +23,10 @@ def FazerMatrizCartas():
     return matriz
 
 # PRINTA O TABULEIRO
-def PrintarTabuleiro(tabuleiro, j1, j2):
+def printar_tabuleiro(tabuleiro, j1, j2):
     numeros_verticais = [3,2,1,1,2,3]
     indice = 0
-    #sleep(2)
+    sleep(2)
     for i in range(len(tabuleiro)):
         if i == 3:
             espacos = " "*43
@@ -49,7 +49,6 @@ def PrintarTabuleiro(tabuleiro, j1, j2):
                 print(tabuleiro[i][c], end="")
                 print(" |")
 
-        # print("")
         print("――――――――――――――――――――――――"*3)
         if i == 5:
             print("   Colunas     ", end="")
@@ -76,13 +75,12 @@ def colocar_general(tabuleiro):
     lista.append(c)
     lista.append(d)
     matriz_mov_inicial.append(lista)
-    print(lista)
     return tabuleiro
 
-def PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas):
+def posicionar_carta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas):
     j1 = nomes_jogadores[0]
     j2 = nomes_jogadores[1]
-    PrintarTabuleiro(tabuleiro, j1, j2)
+    printar_tabuleiro(tabuleiro, j1, j2)
     print("Ex: Para posicionar uma carta na coluna A e linha 1 digite: 'A1'")
     posicao = input("Qual a posicao que voce gostaria de inserir sua carta? Coluna/linha"+'\n')
         
@@ -133,14 +131,14 @@ def PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, 
 
 
     print("Posição Válida! Posicionando sua carta..."+"\n")
-    #sleep(2)
+    sleep(2)
     tabuleiro[linha][colunas[col]] = carta_escolhida["Nome"][0]+" "+(" "*ajuste_espaco_branco)+str(carta_escolhida["Ataque"])+"/"+str(carta_escolhida["Vida"])
     matriz_cartas[linha][colunas[col]] = carta_escolhida
-    PrintarTabuleiro(tabuleiro, j1, j2)
+    printar_tabuleiro(tabuleiro, j1, j2)
     return [tabuleiro, matriz_cartas]
 
-def PosicionarPosDanos(tabuleiro, matriz_cartas, linha, col, carta):
-
+def posicionar_pos_danos(tabuleiro, matriz_cartas, linha, col, carta):
+    print(carta)
     ajuste_espaco_branco = 4 - (len(str(carta["Vida"]))+len(str(carta["Ataque"])))
 
     tabuleiro[linha][col] = carta["Nome"][0]+" "+(" "*ajuste_espaco_branco)+str(carta["Ataque"])+"/"+str(carta["Vida"])
@@ -149,7 +147,10 @@ def PosicionarPosDanos(tabuleiro, matriz_cartas, linha, col, carta):
 
 def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
     input("Agora iniciaremos a batalha")
+    print(f"Vida do jogador 1: {v1}")
+    print(f"Vida do jogador 2: {v2}")
 
+    cartas_mortas = []
     for row in range(len(tabuleiro)):
         for col in range(len(tabuleiro[row])):
             carta_na_posicao = matriz_cartas[row][col]
@@ -157,30 +158,46 @@ def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
             if carta_na_posicao != 0: # Existe uma carta naquele lugar
                 achou_inimigo = False
                 alcance_da_carta_na_posicao = alcances[matriz_cartas[row][col]["Classe"]]
-                for i in range(alcance_da_carta_na_posicao):        
+                for i in range(alcance_da_carta_na_posicao):
+                    # A "linha de interesse" serve para variar entre o campo 1 e 2
+                    # Para j1 -> varia entre as linhas 3, 4 e 5
+                    # para j2 -> varia entre as linhas 2, 1 e 0
                     if row < 3: # A carta atacante é do j1
-                        carta_inimiga = matriz_cartas[3+i][col]
-                        if carta_inimiga != 0: # Tem um inimigo ali
-                            achou_inimigo = True
-                            # O atacante inflige dano no atacado
-                            matriz_cartas[3+i][col]["Vida"] -= matriz_cartas[row][col]["Ataque"] 
+                        linha_interesse = 3+i
+                    else:       # A carta atacante é do j2
+                        linha_interesse = 2-i
 
-                            # Verificando se a carta morreu
-                            if matriz_cartas[3+i][col]["Vida"] > 0:
-                                tabuleiro, matriz_cartas = PosicionarPosDanos(tabuleiro, matriz_cartas, 3+i, col, matriz_cartas[3+i][col])
-                            else:  
-                                matriz_cartas[3+i][col] = 0
-                                tabuleiro[3+i][col] = " "*7
-                            break
-                    elif row >= 3: # A carta atacante é do j2
-                        pass
-                if not achou_inimigo:
+                    carta_inimiga = matriz_cartas[linha_interesse][col]
+                    if carta_inimiga != 0: # Tem um inimigo ali
+                        achou_inimigo = True
+                        # O atacante inflige dano no atacado
+                        matriz_cartas[linha_interesse][col]["Vida"] -= matriz_cartas[row][col]["Ataque"] 
+
+                        # Verificando se a carta morreu
+                        if matriz_cartas[linha_interesse][col]["Vida"] > 0:
+                            tabuleiro, matriz_cartas = posicionar_pos_danos(tabuleiro, matriz_cartas, linha_interesse, col, matriz_cartas[linha_interesse][col])
+                        else:
+                            cartas_mortas.append([linha_interesse, col])
+                        # O break é necessário, pois, encontrando um inimigo, a carta só ataca 1x
+                        break
+                if achou_inimigo == False:
                     # Se não encontrou ninguém, vai bater no inimigo
-                    v2 -= matriz_cartas[row][col]["Ataque"] 
-                    print(f'batando na cabeça do j2, vida atual: {v2}')
-    
-    PrintarTabuleiro(tabuleiro, j1, j2)   
-    return [tabuleiro, matriz_cartas]
+                    if row < 3: # o atacante é do j1
+                        v2 -= matriz_cartas[row][col]["Ataque"] 
+                        print(f'batando na cabeça do j2, vida atual: {v2}')
+                    else: # o atacante é do j2
+                        v1 -= matriz_cartas[row][col]["Ataque"]
+                        print(f'batando na cabeça do j1, vida atual: {v1}')
+
+    # Após acabar a batalha, esse laço irá retirar todas as cartas que morreram
+    for carta in cartas_mortas:
+        linha_int = carta[0]
+        coluna_int = carta[1]
+        matriz_cartas[linha_int][coluna_int] = 0
+        tabuleiro[linha_int][coluna_int] = " "*7
+
+    printar_tabuleiro(tabuleiro, j1, j2)   
+    return [tabuleiro, matriz_cartas, v1, v2]
 
 
 

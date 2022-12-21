@@ -2,9 +2,11 @@
 # As cartas só poderão ter esses valores de ataque ou vida
 PONTOS_DE_ATAQUE_GUERREIRO = [8, 7, 6, 5, 4, 3, 2, 1]    # Possíveis pontos de ATAQUE para as cartas
 PONTOS_DE_VIDA_GUERREIRO = [51, 52, 53, 54, 55, 57, 59, 62]  # Possíveis pontos de VIDA para as cartas
+
 # As cartas da classe arqueiro só poderão ter esses valores de ataque ou vida
 PONTOS_DE_ATAQUE_ARQUEIRO = [18, 19, 20, 21, 22, 23, 24, 25]    # Possíveis pontos de ATAQUE para as cartas
 PONTOS_DE_VIDA_ARQUEIRO = [18, 17, 16, 15, 14, 13, 12, 11]  # Possíveis pontos de VIDA para as cartas
+
 # As cartas da classe CATAPULTA só poderão ter esses valores de ataque ou vida
 PONTOS_DE_ATAQUE_CATAPULTA = [11, 12, 13, 14, 15, 16, 17, 18]    # Possíveis pontos de ATAQUE para as cartas
 PONTOS_DE_VIDA_CATAPULTA = [19, 18, 17, 16, 15, 14, 13, 12]  # Possíveis pontos de VIDA para as cartas
@@ -47,14 +49,14 @@ ATAQUE_CARTA_MATHEUSSEMBARBA = PONTOS_DE_ATAQUE_ARQUEIRO[6]
 ATAQUE_CARTA_ANDRE = PONTOS_DE_ATAQUE_ARQUEIRO[7]
 
 # Atribuindo os valores de vida das cartas arqueiros existentes
-VIDA_CARTA_SYMON = PONTOS_DE_ATAQUE_ARQUEIRO[0]
-VIDA_CARTA_AELOA = PONTOS_DE_ATAQUE_ARQUEIRO[1]
-VIDA_CARTA_POLICIAL = PONTOS_DE_ATAQUE_ARQUEIRO[2]
-VIDA_CARTA_ZE = PONTOS_DE_ATAQUE_ARQUEIRO[3]
-VIDA_CARTA_MATHEUSBARBA = PONTOS_DE_ATAQUE_ARQUEIRO[4]
-VIDA_CARTA_GUSTAVO = PONTOS_DE_ATAQUE_ARQUEIRO[5]
-VIDA_CARTA_MATHEUSSEMBARBA = PONTOS_DE_ATAQUE_ARQUEIRO[6]
-VIDA_CARTA_ANDRE = PONTOS_DE_ATAQUE_ARQUEIRO[7]
+VIDA_CARTA_SYMON = PONTOS_DE_VIDA_ARQUEIRO[0]
+VIDA_CARTA_AELOA = PONTOS_DE_VIDA_ARQUEIRO[1]
+VIDA_CARTA_POLICIAL = PONTOS_DE_VIDA_ARQUEIRO[2]
+VIDA_CARTA_ZE = PONTOS_DE_VIDA_ARQUEIRO[3]
+VIDA_CARTA_MATHEUSBARBA = PONTOS_DE_VIDA_ARQUEIRO[4]
+VIDA_CARTA_GUSTAVO = PONTOS_DE_VIDA_ARQUEIRO[5]
+VIDA_CARTA_MATHEUSSEMBARBA = PONTOS_DE_VIDA_ARQUEIRO[6]
+VIDA_CARTA_ANDRE = PONTOS_DE_VIDA_ARQUEIRO[7]
 
 # Atribuindo os valores de ataque das cartas catapulta existentes
 ATAQUE_CARTA_LUIZA = PONTOS_DE_ATAQUE_CATAPULTA[0] #turma iana
@@ -77,14 +79,14 @@ VIDA_CARTA_BRUNA = PONTOS_DE_VIDA_CATAPULTA[6] #turma iana
 VIDA_CARTA_ARTHUR = PONTOS_DE_VIDA_CATAPULTA[7] #tumrma henrique
 
 # Criando as cartas guerreiras
-carta_danilo = {'Classe': GUERREIRO, 'Nome': 'Danilo',  'Ataque': ATAQUE_CARTA_DANILO,  'Vida': VIDA_CARTA_DANILO, 'Turma': TURMA1}
-carta_pedro = {'Classe': GUERREIRO, 'Nome': 'Pedro',   'Ataque':ATAQUE_CARTA_PEDRO,   'Vida': VIDA_CARTA_PEDRO, 'Turma': TURMA2}
-carta_rafael = {'Classe': GUERREIRO, 'Nome': 'Rafael',   'Ataque': ATAQUE_CARTA_RAFAEL,   'Vida': VIDA_CARTA_RAFAEL, 'Turma': TURMA2}
-carta_euler = {'Classe': GUERREIRO,  'Nome': 'Euler',   'Ataque': ATAQUE_CARTA_EULER,   'Vida': VIDA_CARTA_EULER, 'Turma': TURMA1}
-carta_mayara = {'Classe': GUERREIRO,  'Nome': 'Mayara', 'Ataque': ATAQUE_CARTA_MAYARA, 'Vida': VIDA_CARTA_MAYARA,  'Turma': TURMA2}
-carta_lucasagua = {'Classe': GUERREIRO,  'Nome': 'Lucas_Agua', 'Ataque': ATAQUE_CARTA_LUCASAGUA, 'Vida': VIDA_CARTA_LUCASAGUA, 'Turma': TURMA1}
-carta_thiago = {'Classe': GUERREIRO, 'Nome': 'Thiago',      'Ataque': ATAQUE_CARTA_THIAGO,      'Vida': VIDA_CARTA_THIAGO, 'Turma': TURMA2}
-carta_iago = {'Classe': GUERREIRO, 'Nome': 'Iago',   'Ataque': ATAQUE_CARTA_IAGO,   'Vida': VIDA_CARTA_IAGO, 'Turma': TURMA1}
+carta_danilo    = {'Classe': GUERREIRO, 'Nome': 'Danilo',     'Ataque': ATAQUE_CARTA_DANILO,  'Vida': VIDA_CARTA_DANILO, 'Turma': TURMA1}
+carta_pedro     = {'Classe': GUERREIRO, 'Nome': 'Pedro',      'Ataque': ATAQUE_CARTA_PEDRO,   'Vida': VIDA_CARTA_PEDRO, 'Turma': TURMA2}
+carta_rafael    = {'Classe': GUERREIRO, 'Nome': 'Rafael',     'Ataque': ATAQUE_CARTA_RAFAEL,   'Vida': VIDA_CARTA_RAFAEL, 'Turma': TURMA2}
+carta_euler     = {'Classe': GUERREIRO, 'Nome': 'Euler',      'Ataque': ATAQUE_CARTA_EULER,   'Vida': VIDA_CARTA_EULER, 'Turma': TURMA1}
+carta_mayara    = {'Classe': GUERREIRO, 'Nome': 'Mayara',     'Ataque': ATAQUE_CARTA_MAYARA, 'Vida': VIDA_CARTA_MAYARA,  'Turma': TURMA2}
+carta_lucasagua = {'Classe': GUERREIRO, 'Nome': 'Lucas Agua', 'Ataque': ATAQUE_CARTA_LUCASAGUA, 'Vida': VIDA_CARTA_LUCASAGUA, 'Turma': TURMA1}
+carta_thiago    = {'Classe': GUERREIRO, 'Nome': 'Thiago',     'Ataque': ATAQUE_CARTA_THIAGO,      'Vida': VIDA_CARTA_THIAGO, 'Turma': TURMA2}
+carta_iago      = {'Classe': GUERREIRO, 'Nome': 'Iago',       'Ataque': ATAQUE_CARTA_IAGO,   'Vida': VIDA_CARTA_IAGO, 'Turma': TURMA1}
 
 # Criando as cartas arqueiras
 carta_symon = {'Classe': ARQUEIRO, 'Nome': 'Symon',  'Ataque': ATAQUE_CARTA_SYMON,  'Vida': VIDA_CARTA_SYMON, 'Turma': TURMA2}
@@ -121,3 +123,19 @@ deck = [carta_aeloa, carta_andre, carta_arthur, carta_bruna, carta_claudia, cart
 carta_gustavo, carta_henrique, carta_jessica, carta_iago, carta_joao, carta_luiza, carta_lucasagua, carta_matheusbarba, 
 carta_matheusembarba, carta_mayara, carta_pedro, carta_rafael, carta_policial, carta_symon, carta_thiago, carta_ze,
 carta_atacar2, carta_rageguerreiro, carta_bloqueiaturno, carta_invulnerabilidade, carta_danodireto]
+
+# Instanciando os generais
+vida_generais = 70
+ataque_generais = 0
+GENERAL = 'General'
+
+general_leonidas = {'Classe': GENERAL, 'Nome': "Rei Leônidas", 'Nome da habilidade': "Grito de Leonidas",
+                    'Vida': vida_generais, 'Ataque': ataque_generais}
+general_alexandre = {'Classe': GENERAL, 'Nome': "Alexandre, o grande", 'Nome da habilidade': "Convocação de Alexandre",
+                     'Vida': vida_generais, 'Ataque': ataque_generais}
+general_gengiskhan = {'Classe': GENERAL, 'Nome': "Gengis Khan", 'Nome da habilidade': "Céu negro",
+                      'Vida': vida_generais, 'Ataque': ataque_generais}
+general_henrique = {'Classe': GENERAL, 'Nome': "Henrique", 'Nome da habilidade': "Autoridade punitiva",
+                    'Vida': vida_generais, 'Ataque': ataque_generais}
+general_iana = {'Classe': GENERAL, 'Nome': "Iana", 'Nome da habilidade': "Autoridade punitiva",
+                'Vida': vida_generais, 'Ataque': ataque_generais}
