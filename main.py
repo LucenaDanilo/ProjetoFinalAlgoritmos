@@ -4,47 +4,51 @@ from mensagens_usuario import *
 from constantes import *
 
 # Iniciando o Jogo
-#MensagemInicial()
+MensagemInicial()
 
 # Recebendo o nome dos jogadores
 j1: str = 'Danilo'
 j2: str = 'Andre'
 
-#j1, j2 = ReceberNomesJogadores()
+j1, j2 = ReceberNomesJogadores()
 nomes_jogadores = (j1, j2)
 
 # Dando a opção de pular o tutorial
-#pular = PularTutorial()
+pular = PularTutorial()
 
 # Passando algumas informações importantes para os jogadores
-#if pular == False:
-#    InstrucoesIniciais()
-#    InstrucoesPreJogo()
+if pular == False:
+    InstrucoesIniciais()
+    InstrucoesPreJogo()
 
 # Iniciando a vida dos jogadores
 v1, v2 = VIDA_INICIAL_JOGADORES, VIDA_INICIAL_JOGADORES
 
-# Inicianlizando os decks dos jogadores
-#if pular == True:
-#    pass
+# Apresentando a opção de conhecer os generais
+sleep(1)
+conhecer_generais = mensagem_general1()
+
+# Passando informações sobre os generais se solicitado
+if conhecer_generais:
+    explicando_generais()
 
 # Retirando os decks do j1 e j2 a partir de um deck base
 deck_jogo = deck
-deck_j1 = GerarDeckJogador(deck_jogo, j1)
-deck_j2 = GerarDeckJogador(deck_jogo, j2)
+deck_j1 = gerar_deck_jogador(deck_jogo, j1)
+deck_j2 = gerar_deck_jogador(deck_jogo, j2)
 
 # Inicializando as mãos dos jogadores
 MensagemMaoInicial()
-mao_j1, deck_j1 = GerarMãoInicial(deck_j1, N_CARTAS_INICIAL, j1)
-mao_j2, deck_j2 = GerarMãoInicial(deck_j2, N_CARTAS_INICIAL, j2)
+mao_j1, deck_j1 = gerar_mao_inicial(deck_j1, N_CARTAS_INICIAL, j1)
+mao_j2, deck_j2 = gerar_mao_inicial(deck_j2, N_CARTAS_INICIAL, j2)
 listas_decks = [deck_j1, deck_j2]
 listas_maos  = [mao_j1, mao_j2]
 
 # Criando e exibindo o tabuleiro
-tabuleiro = FazerTabuleiro()
-matriz_cartas = FazerMatrizCartas()
+tabuleiro = fazer_tabuleiro()
+matriz_cartas = fazer_matriz_cartas()
 tabuleiro = colocar_general(tabuleiro)
-PrintarTabuleiro(tabuleiro, j1, j2)
+printar_tabuleiro(tabuleiro, j1, j2)
 
 # Dando inicio ao jogo
 jogador_turno = 1
@@ -64,21 +68,20 @@ while True:
     MensagemTurno(indice_jogador_turno, nomes_jogadores)
 
     listas_maos[indice_jogador_turno], listas_decks[indice_jogador_turno] = Sacar(listas_maos[indice_jogador_turno], listas_decks[indice_jogador_turno], nome_jogador)
-    ApresentarMaoAtual(listas_maos[indice_jogador_turno], nome_jogador)
+    apresentar_mao_atual(listas_maos[indice_jogador_turno], nome_jogador)
 
     # Recebendo a carta e posicionando ela no tabuleiro
     carta_escolhida = ReceberCartaEscolhida(listas_maos[indice_jogador_turno], nome_jogador)
-    tabuleiro, matriz_cartas = PosicionarCarta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas)
+    tabuleiro, matriz_cartas = posicionar_carta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas)
 
     # Garantindo que a batalha só acontece após os dois jogadores jogarem
     if jogador_turno == 2:
-        tabuteiro, matriz_cartas = Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2)
+        tabuteiro, matriz_cartas, v1, v2 = Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2)
 
-    v1 -= 2
     if v1 <= 0 or v2 <= 0:
         break
 
     jogador_turno += 1
     indice_jogador_turno += 1
 
-print('fim de jogo')
+mensagem_fim_de_jogo(v1, v2)
