@@ -2,6 +2,7 @@ from time import sleep
 from constantes import * 
 from acoes_deck import alcances
 from random import randrange
+from cartas import GENERAL
 
 # FAZ A MATRIZ DO TABULEIRO
 def fazer_tabuleiro():
@@ -26,7 +27,7 @@ def fazer_matriz_cartas():
 def printar_tabuleiro(tabuleiro, j1, j2):
     numeros_verticais = [3,2,1,1,2,3]
     indice = 0
-    sleep(2)
+    #sleep(2)
     for i in range(len(tabuleiro)):
         if i == 3:
             espacos = " "*43
@@ -56,26 +57,29 @@ def printar_tabuleiro(tabuleiro, j1, j2):
             print("A         B         C         D         E")
     print()
     
-general1 = 'G. H 50'
-general2 = 'G. I 65'
-def colocar_general(tabuleiro):
-    lista = []
-    matriz_mov_inicial = []
+def colocar_general(tabuleiro, matriz_cartas, g1, g2):
+    input("No inicio de cada jogo, os generais são posicionados de maneira aleatória ")
 
-    a = randrange(4)
-    b = randrange(2)
-    c = randrange(3, 4, 5)
-    d = randrange(4)
-    tabuleiro[b][a] = general1
-    lista.append(b)
-    lista.append(a)
-    matriz_mov_inicial.append(lista)
-    lista = []
-    tabuleiro[c][d] = general2
-    lista.append(c)
-    lista.append(d)
-    matriz_mov_inicial.append(lista)
-    return tabuleiro
+    # Randomizando a posição dos generais
+    a = randrange(3)
+    b = randrange(5)
+    c = randrange(3, 6)
+    d = randrange(5)
+
+    # Dando mensagem pro usuário
+    input("Posicionando o general {} do jogador 1".format(g1["Nome"].capitalize())+'\n')
+    sleep(1)
+    input("Posicionando o general {} do jogador 2".format(g2["Nome"].capitalize())+'\n')
+    sleep(1)
+    
+    # Inserindo o general no tabuleiro de visualização
+    tabuleiro[a][b] = 'G. '+g1["Nome"][0].upper()+" "+str(g1["Vida"])
+    tabuleiro[c][d] = 'G. '+g2["Nome"][0].upper()+" "+str(g2["Vida"])
+
+    # Inserindo o general na matriz de combate
+    matriz_cartas[a][b] = g1
+    matriz_cartas[c][d] = g2
+    return [tabuleiro, matriz_cartas, [[a,b], [c,d]]]
 
 def posicionar_carta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas):
     j1 = nomes_jogadores[0]
@@ -138,17 +142,24 @@ def posicionar_carta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores,
     return [tabuleiro, matriz_cartas]
 
 def posicionar_pos_danos(tabuleiro, matriz_cartas, linha, col, carta):
-    print(carta)
     ajuste_espaco_branco = 4 - (len(str(carta["Vida"]))+len(str(carta["Ataque"])))
 
     tabuleiro[linha][col] = carta["Nome"][0]+" "+(" "*ajuste_espaco_branco)+str(carta["Ataque"])+"/"+str(carta["Vida"])
     matriz_cartas[linha][col] = carta
     return [tabuleiro, matriz_cartas]
 
+def posicionar_general_pos_danos(tabuleiro, matriz_cartas, linha, col, g):
+    tabuleiro[linha][col] = 'G. '+g["Nome"][0].upper()+" "+str(g["Vida"])
+    matriz_cartas[linha][col] = g
+    return [tabuleiro, matriz_cartas]
+
 def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
+    print()
     input("Agora iniciaremos a batalha")
+    #sleep(0.3)
     print(f"Vida do jogador 1: {v1}")
-    print(f"Vida do jogador 2: {v2}")
+    #sleep(0.3)
+    print(f"Vida do jogador 2: {v2}"+"")
 
     cartas_mortas = []
     for row in range(len(tabuleiro)):
@@ -175,7 +186,10 @@ def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
 
                         # Verificando se a carta morreu
                         if matriz_cartas[linha_interesse][col]["Vida"] > 0:
-                            tabuleiro, matriz_cartas = posicionar_pos_danos(tabuleiro, matriz_cartas, linha_interesse, col, matriz_cartas[linha_interesse][col])
+                            if matriz_cartas[linha_interesse][col]["Classe"] != GENERAL:
+                                tabuleiro, matriz_cartas = posicionar_pos_danos(tabuleiro, matriz_cartas, linha_interesse, col, matriz_cartas[linha_interesse][col])
+                            else:
+                                tabuleiro, matriz_cartas = posicionar_general_pos_danos(tabuleiro, matriz_cartas, linha_interesse, col, matriz_cartas[linha_interesse][col])
                         else:
                             cartas_mortas.append([linha_interesse, col])
                         # O break é necessário, pois, encontrando um inimigo, a carta só ataca 1x
@@ -184,10 +198,10 @@ def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
                     # Se não encontrou ninguém, vai bater no inimigo
                     if row < 3: # o atacante é do j1
                         v2 -= matriz_cartas[row][col]["Ataque"] 
-                        print(f'batando na cabeça do j2, vida atual: {v2}')
+                        print(f'{matriz_cartas[row][col]} bateu direto na cabeça do j2, vida atual: {v2}')
                     else: # o atacante é do j2
                         v1 -= matriz_cartas[row][col]["Ataque"]
-                        print(f'batando na cabeça do j1, vida atual: {v1}')
+                        print(f'{matriz_cartas[row][col]} bateu firme na cabeça do j1, vida atual: {v1}')
 
     # Após acabar a batalha, esse laço irá retirar todas as cartas que morreram
     for carta in cartas_mortas:
@@ -199,5 +213,74 @@ def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
     printar_tabuleiro(tabuleiro, j1, j2)   
     return [tabuleiro, matriz_cartas, v1, v2]
 
+def movimenta_general(g, x_g, y_g, matriz_cartas, tabuleiro, jogador_turno, j1, j2):
+    # x_g é a posição x do general em indice
+    # y_g é a posição y do general em indice
+    lista_jogadores = [j1, j2]
+    print("Insira a coluna e a linha, ex: A1")
+    posicao = input("{}, para qual posição você deseja mover seu general?".format(lista_jogadores[jogador_turno-1])+"\n")
+    while True:
+        if len(posicao) != 2:
+            posicao = input("Por favor, insira uma entrada de tamanho valido" +
+                            '\n')
+            continue
+        else:
+            col = posicao[0].upper()
+            row = posicao[1]
+        if col.upper() not in COL_VALIDA:
+            posicao = input("Por favor, uma coluna valida" + '\n')
+            continue
+        elif row not in LINHA_VALIDA:
+            posicao = input("Por favor, insira uma linha valida" + '\n')
+            continue
 
+        # Ajustando para o j1 e j2
+        if jogador_turno == 1:
+            if int(row) == 1:
+                linha = 2
+            elif int(row) == 2:
+                linha = 1
+            else:
+                linha = 0
+        else:
+            if int(row) == 1:
+                linha = 3
+            elif int(row) == 2:
+                linha = 4
+            else:
+                linha = 5
 
+        # Verificando se há uma carta na posição desejada
+        colunas = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
+        if (x_g == colunas[col]) and (y_g == linha):
+            posicao = input("Você está inserindo sua própria posição, mas você deve se mover!"+'\n')
+            continue
+        elif matriz_cartas[linha][colunas[col]] != 0:
+            posicao = input("Ja existe uma carta nessa posicao, por gentileza insira outra!"+'\n')
+            continue
+        # Verificando se a distância do passo é válida
+        # O passo só pode ser de 1 de distância e não pode bater nas paredes
+        if abs(x_g - colunas[col]) > 1:
+            posicao = input(
+                "Você está querendo dar um passo maior que a perna, insira outra posição!"
+                + '\n')
+            continue
+        elif abs(y_g - linha) > 1:
+            posicao = input(
+                "Você está querendo dar um passo maior que a perna, insira outra posição!"
+                + '\n')
+            continue
+
+        break
+
+    print("Posição válida! Movimentando o seu general")
+    # sleep(1)
+    # Colocando o general em ambas as matrizes
+    tabuleiro[linha][colunas[col]] = 'G. '+g["Nome"][0].upper()+" "+str(g["Vida"])
+    matriz_cartas[linha][colunas[col]] = g
+
+    # Retirando o general das antigas posicoes
+    tabuleiro[y_g][x_g] = ' '*7
+    matriz_cartas[y_g][x_g] = 0
+    printar_tabuleiro(tabuleiro, j1, j2)
+    return [matriz_cartas, tabuleiro, colunas[col], linha]

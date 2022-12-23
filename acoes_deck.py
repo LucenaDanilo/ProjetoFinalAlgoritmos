@@ -18,7 +18,7 @@ def gerar_deck_jogador(deck, nome_jogador):
         deck_jogador.append(deck_temp.pop(numero_sorteado-1))
     
     print("Entregando o deck embaralhado do jogador: "+nome_jogador+" \n")
-    sleep(2)
+    #sleep(2)
     return deck_jogador
 
 #deck_jogador1 = GerarDeckJogador(deck, j1)
@@ -28,7 +28,7 @@ def gerar_deck_jogador(deck, nome_jogador):
 def gerar_mao_inicial(deck_jogador, n_cartas, nome_jogador):
     mao_inicial = deepcopy(deck_jogador[0:n_cartas])
     deck_jogador = deck_jogador[n_cartas:]
-    sleep(2)
+    #sleep(2)
 
     print('A mao inicial do jogador '+nome_jogador+' foi entregue!'+"\n")
 
@@ -55,7 +55,7 @@ def apresentar_mao_atual(mao_atual, nome_jogador):
             print(str(cont)+'. '+carta['Nome']+' | Classe: '+carta['Classe']+' | ATK: '+str(carta['Ataque'])+' | VIDA: '+str(carta['Vida']))
         else:
             print(str(cont)+'. '+carta['Nome']+' | Classe: '+carta['Classe']+" | Ação: "+str(carta["Acao"]))
-        sleep(0.5)
+        #sleep(0.5)
         cont += 1
 
 # A função Sacar retira uma carta do deck do jogador e põe essa mesma carta na sua mao atual
@@ -84,3 +84,30 @@ def ReceberCartaEscolhida(mao_atual, nome_jogador):
     carta_jogada = mao_atual.pop(indice_carta-1)
     print("Voce escolheu a carta: "+carta_jogada["Nome"])
     return carta_jogada
+
+def escolher_general(generais):
+
+    general_escolhidos = []
+    input("Atualmente temos 5 generais por favor escolha um a seguir:""\n")
+    print("Você pode escolher digitando o nome dele ou o seu numero.")
+    #sleep(1)
+    for i in range(len(deck_generais)):
+        print(deck_generais[i]["Nome"], end=" " )
+        print(f"e seu numero de escolha é {i+1} ")
+        #sleep(1)
+    for c in range(2):
+        while True:
+            entrada = input("Por favor, insira um nome ou numero válido:""\n").strip().lower()
+            if entrada in NUMERO_GENERAIS_POSSIVEIS:
+                general_escolhido = deck_generais[int(entrada)-1]
+                general_escolhidos.append(general_escolhido)
+                break
+            elif entrada in NOMES_GENERAIS_POSSIVEIS:
+                a = NOMES_GENERAIS_POSSIVEIS.index(entrada)
+                b = NUMERO_GENERAIS_CORRESPODENTES[a]
+                general_escolhido = deck_generais[b]
+                general_escolhidos.append(general_escolhido)
+            else:
+                input("Véi um nome de genereal valido ou um numero de um a cinco, por favor")
+                'sleep(1)'
+    return general_escolhidos

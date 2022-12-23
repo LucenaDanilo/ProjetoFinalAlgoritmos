@@ -95,6 +95,7 @@ def mensagem_general1():
                 return False
             else:
                 resposta = input("Por gentileza, envie 'S' para sim ou 'N' para nao")
+
 def explicando_generais():
     sleep(1)
     input("Decidimos que os generais seriam as únicas peças moveis desse card game.""\n"
@@ -122,7 +123,6 @@ def explicando_generais():
           "Como as cartas são seus alunos, o buff é aplicado nos alunos que pertecerem a turma "
           "do professor.""\n""Se a vida chegar a zero o buff é substituido por um debuff de mesmo valor.")
     print()
-
 
 def MensagemTurno(jogador_turno, lista_nome_jogadores):
     input(f"Agora é o turno do jogador {jogador_turno+1}: {lista_nome_jogadores[jogador_turno]}"+'\n')

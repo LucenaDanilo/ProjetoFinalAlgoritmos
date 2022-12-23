@@ -15,6 +15,7 @@ PONTOS_DE_VIDA_CATAPULTA = [19, 18, 17, 16, 15, 14, 13, 12]  # Possíveis pontos
 GUERREIRO = 'Guerreiro'
 ARQUEIRO = 'Arqueiro'
 CATAPULTA = 'Catapulta'
+GENERAL = 'General'
 TURMA1 = 'Turma_Henrique'
 TURMA2 = 'Turma_Iana'
 
@@ -109,7 +110,7 @@ carta_bruna = {'Classe': CATAPULTA, 'Nome': 'Davi',      'Ataque': ATAQUE_CARTA_
 carta_arthur = {'Classe': CATAPULTA, 'Nome': 'Arthur',   'Ataque': ATAQUE_CARTA_ARTHUR,   'Vida': VIDA_CARTA_ARTHUR, 'Turma': TURMA1}
 
 # Setando os alcances
-alcances = {GUERREIRO: 1, ARQUEIRO: 2, CATAPULTA: 3}
+alcances = {GUERREIRO: 1, ARQUEIRO: 2, CATAPULTA: 3, GENERAL: 0}
 
 FEITICO = "Feiticos"
 carta_atacar2 = {'Classe': FEITICO, 'Nome': 'Furia de um deus', 'Acao': "Enfurece um soldado fazendo com que ele ataque duas vezes"}
@@ -127,7 +128,7 @@ carta_atacar2, carta_rageguerreiro, carta_bloqueiaturno, carta_invulnerabilidade
 # Instanciando os generais
 vida_generais = 70
 ataque_generais = 0
-GENERAL = 'General'
+
 
 general_leonidas = {'Classe': GENERAL, 'Nome': "Rei Leônidas", 'Nome da habilidade': "Grito de Leonidas",
                     'Vida': vida_generais, 'Ataque': ataque_generais}
@@ -139,3 +140,4 @@ general_henrique = {'Classe': GENERAL, 'Nome': "Henrique", 'Nome da habilidade':
                     'Vida': vida_generais, 'Ataque': ataque_generais}
 general_iana = {'Classe': GENERAL, 'Nome': "Iana", 'Nome da habilidade': "Autoridade punitiva",
                 'Vida': vida_generais, 'Ataque': ataque_generais}
+deck_generais  = [general_iana, general_henrique, general_gengiskhan, general_alexandre, general_leonidas]
