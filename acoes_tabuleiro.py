@@ -2,7 +2,9 @@ from time import sleep
 from constantes import * 
 from acoes_deck import alcances
 from random import randrange
-from cartas import GENERAL, ARQUEIRO, GUERREIRO, CATAPULTA
+from cartas import GENERAL, ARQUEIRO, GUERREIRO, CATAPULTA, FEITICO
+
+colunas = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
 
 # FAZ A MATRIZ DO TABULEIRO
 def fazer_tabuleiro():
@@ -31,9 +33,9 @@ def printar_tabuleiro(tabuleiro, j1, j2):
     for i in range(len(tabuleiro)):
         if i == 3:
             espacos = " "*43
-            print("{}{}{}{}".format(cores["verde"], espacos, j1, cores["limpa"]))
+            print("{}{}{}{}".format(CORES["verde"], espacos, j1, CORES["limpa"]))
             print("{}  x".format(espacos))
-            print("{}{}{}{}".format(cores["azul"],espacos,j2,cores["limpa"]))
+            print("{}{}{}{}".format(CORES["azul"],espacos,j2,CORES["limpa"]))
             print("――――――――――――――――――――――――"*3)
         if i == 0:
             print("     Colunas   ", end="")
@@ -45,22 +47,22 @@ def printar_tabuleiro(tabuleiro, j1, j2):
                 if i >= 3:
                     print(f"Número da linha ({numeros_verticais[indice]}) | ", end="")
                     indice += 1
-                    print("{}{}{}".format(cores["azul"], tabuleiro[i][c], cores["limpa"]), end=" | ")
+                    print("{}{}{}".format(CORES["azul"], tabuleiro[i][c], CORES["limpa"]), end=" | ")
                 else:
                     print(f"Número da linha ({numeros_verticais[indice]}) | ", end="")
                     indice += 1
-                    print("{}{}{}".format(cores["verde"], tabuleiro[i][c], cores["limpa"]), end=" | ")
+                    print("{}{}{}".format(CORES["verde"], tabuleiro[i][c], CORES["limpa"]), end=" | ")
             elif c<4:
                 if i >= 3:
-                    print("{}{}{}".format(cores["azul"], tabuleiro[i][c], cores["limpa"]), end=" | ")
+                    print("{}{}{}".format(CORES["azul"], tabuleiro[i][c], CORES["limpa"]), end=" | ")
                 else:
-                    print("{}{}{}".format(cores["verde"], tabuleiro[i][c], cores["limpa"]), end=" | ")
+                    print("{}{}{}".format(CORES["verde"], tabuleiro[i][c], CORES["limpa"]), end=" | ")
             else:
                 if i >= 3:
-                    print("{}{}{}".format(cores["azul"], tabuleiro[i][c], cores["limpa"]), end="")
+                    print("{}{}{}".format(CORES["azul"], tabuleiro[i][c], CORES["limpa"]), end="")
                     print(" |")
                 else:
-                    print("{}{}{}".format(cores["verde"], tabuleiro[i][c], cores["limpa"]), end="")
+                    print("{}{}{}".format(CORES["verde"], tabuleiro[i][c], CORES["limpa"]), end="")
                     print(" |")
 
         print("――――――――――――――――――――――――"*3)
@@ -166,7 +168,7 @@ def posicionar_general_pos_danos(tabuleiro, matriz_cartas, linha, col, g):
     matriz_cartas[linha][col] = g
     return [tabuleiro, matriz_cartas]
 
-def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
+def batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2, listas_generais, listas_decks, g1_morreu, g2_morreu):
     print()
     input("Agora iniciaremos a batalha")
     #sleep(0.3)
@@ -205,16 +207,27 @@ def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
                                 tabuleiro, matriz_cartas = posicionar_general_pos_danos(tabuleiro, matriz_cartas, linha_interesse, col, matriz_cartas[linha_interesse][col])
                         else:
                             cartas_mortas.append([linha_interesse, col])
+                            if matriz_cartas[linha_interesse][col]["Classe"] == GENERAL:
+                                if linha_interesse <= 2:
+                                    g1_morreu = True
+                                else:
+                                    g2_morreu = True
+                                matriz_cartas = atordoa_general(listas_generais, matriz_cartas, listas_decks, tabuleiro, j1, j2)
+
                         # O break é necessário, pois, encontrando um inimigo, a carta só ataca 1x
                         break
                 if achou_inimigo == False:
                     # Se não encontrou ninguém, vai bater no inimigo
                     if row < 3: # o atacante é do j1
-                        v2 -= matriz_cartas[row][col]["Ataque"] 
-                        print(f'{matriz_cartas[row][col]} bateu direto na cabeça do j2, vida atual: {v2}')
+                        v2 -= matriz_cartas[row][col]["Ataque"]
+                        if matriz_cartas[row][col]["Classe"] != GENERAL:
+                            print(f'{matriz_cartas[row][col]["Nome"]} bateu direto na cabeça do j2, vida atual: {v2}')
+                        sleep(0.4)
                     else: # o atacante é do j2
                         v1 -= matriz_cartas[row][col]["Ataque"]
-                        print(f'{matriz_cartas[row][col]} bateu firme na cabeça do j1, vida atual: {v1}')
+                        if matriz_cartas[row][col]["Classe"] != GENERAL:
+                            print(f'{matriz_cartas[row][col]["Nome"]} bateu firme na cabeça do j1, vida atual: {v1}')
+                        sleep(0.4)
 
     # Após acabar a batalha, esse laço irá retirar todas as cartas que morreram
     for carta in cartas_mortas:
@@ -224,7 +237,7 @@ def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
         tabuleiro[linha_int][coluna_int] = " "*7
 
     printar_tabuleiro(tabuleiro, j1, j2)   
-    return [tabuleiro, matriz_cartas, v1, v2]
+    return [tabuleiro, matriz_cartas, v1, v2, g1_morreu, g2_morreu]
 
 def movimenta_general(g, x_g, y_g, matriz_cartas, tabuleiro, jogador_turno, j1, j2):
     # x_g é a posição x do general em indice
@@ -308,7 +321,7 @@ def feitico_ataque_direto(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
     print("Guerreiros: Sofrem 35 de dano")
     print("Arqueiros: Sofrem 15 de dano")
     print("Catapultas: Sofrem 16 de dano")
-    print("General: Sofrem 50 de dano"+"\n")
+    print("General: Sofrem 40 de dano"+"\n")
 
     printar_tabuleiro(tabuleiro, j1, j2)
 
@@ -361,7 +374,7 @@ def feitico_ataque_direto(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
     elif matriz_cartas[linha][colunas[col]]["Classe"] == CATAPULTA:
         matriz_cartas[linha][colunas[col]]["Vida"] -= 16
     else: # O inimigo é um general
-        matriz_cartas[linha][colunas[col]]["Vida"] -= 50
+        matriz_cartas[linha][colunas[col]]["Vida"] -= 40
 
     if matriz_cartas[linha][colunas[col]]["Classe"] != GENERAL:
         posicionar_pos_danos(tabuleiro, matriz_cartas, linha, colunas[col], matriz_cartas[linha][colunas[col]])
@@ -372,6 +385,7 @@ def feitico_ataque_direto(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
     return [matriz_cartas, tabuleiro]
 
 def feitico_dia_da_reza():
+    print("Digite a posicao da carta, ex: A1")
     input("Nesse turno não haverá batalha!")
     return True
 
@@ -439,3 +453,121 @@ def feitico_atacar_duas_vezes(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
         print('Infelizmente, não havia ninguém no alcance, sua carta não atacou ninguém')
 
     return [matriz_cartas, tabuleiro]
+
+def feitico_o_protegido(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
+
+    printar_tabuleiro(tabuleiro, j1, j2)
+
+    print("Digite a posicao da carta, ex: A1")
+    posicao = input("Selecione uma carta para não tomar dano esse turno"+"\n")
+
+    # Verificando se a posição que o usuário informou está correta
+    while True:
+        if len(posicao) != 2:
+            posicao = input("Por favor, insira uma entrada de tamanho valido"+'\n')
+            continue
+        else:
+            col = posicao[0].upper()
+            row = posicao[1]
+        if col.upper() not in COL_VALIDA:
+            posicao = input("Por favor, uma coluna valida"+'\n')
+            continue
+        elif row not in LINHA_VALIDA:
+            posicao = input("Por favor, insira uma linha valida"+'\n')
+            continue
+        
+        # Ajustando para o j1 e j2
+        if jogador_turno == 1:
+            if int(row) == 1:
+                linha = 2
+            elif int(row) == 2:
+                linha = 1
+            else:
+                linha = 0
+        else:
+            if int(row) == 1:
+                linha = 3
+            elif int(row) == 2:
+                linha = 4
+            else:
+                linha = 5
+
+        if matriz_cartas[linha][colunas[col]] == 0:
+            posicao = input(f"Posição inválida, não há cartas nesse local!"+'\n')
+            continue
+        else:
+            break
+    
+    print("Carta selecionada, ela não irá sofrer danos esse turno!")
+    carta_protegida = matriz_cartas[linha][colunas[col]]
+
+    # Retirando a carta da matriz_cartas para ela não tomar dano
+    matriz_cartas[linha][colunas[col]] = 0
+
+    return [matriz_cartas, carta_protegida, True, linha, colunas[col]]
+
+def feitico_saco_de_pancadas(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
+    printar_tabuleiro(tabuleiro, j1, j2)
+
+    print("Digite a posicao da carta, ex: A1")
+    posicao = input("Selecione o guerreiro que você deseja que ataque no alcance máximo: 3"+"\n")
+
+# Implementando as passivas dos generaisd
+def buffar_henrique_iana(lista_decks, jogador_turno):
+    deck_j1 = lista_decks[0]
+    deck_j2 = lista_decks[1]
+    if jogador_turno == 1:
+        deck_jogador = deck_j1
+    else:
+        deck_jogador = deck_j2
+    for i in range(len(lista_decks[jogador_turno-1])):
+        # Buffando apenas os soldados
+        if deck_jogador[i]["Classe"] != FEITICO:
+            deck_jogador[i]["Ataque"] = deck_jogador[i]["Ataque"] + 3
+            deck_jogador[i]["Vida"] = deck_jogador[i]["Vida"] + 2
+    return deck_jogador
+
+def atordoa_general(lista_generais, matriz_cartas, lista_decks, tabuleiro, j1, j2):
+    g1 = lista_generais[0]
+    g2 = lista_generais[1]
+    for i in range(len(lista_generais)):
+        if i==0:
+            if g1["Nome"] == "Alexandre, o Grande":
+                vida_j1 = vida_j1 - 30
+            if g1["Nome"] == "Rei Lêonidas":
+                for c in range(5):
+                    if matriz_cartas[2][c] != 0:
+                        matriz_cartas[2][c]["Vida"] = matriz_cartas[2][c]["Vida"] - 15
+            if g1["Nome"] == "Gengis Khan":
+                vida_j1 = vida_j1 - 50
+            if g1["Nome"] == "Iana" or g1["Nome"] == "Henrique":
+                atordoa_henrique_iana(lista_decks, 1)
+        else:
+            if g2["Nome"] == "Alexandre, o Grande":
+                vida_j2 = vida_j2 - 30
+            if g2["Nome"] == "Rei Lêonidas":
+                for c in range(5):
+                    if matriz_cartas[3][c] != 0:
+                        matriz_cartas[3][c]["Vida"] = matriz_cartas[3][c]["Vida"] - 15
+            if g2["Nome"] == "Gengis Khan":
+                vida_j2 = vida_j2 - 50
+            if g2["Nome"] == "Iana" or g2["Nome"] == "Henrique":
+                atordoa_henrique_iana(lista_decks, 2)
+    printar_tabuleiro(tabuleiro, j1, j2)
+    return matriz_cartas
+
+def atordoa_henrique_iana(lista_decks, jogador_turno):
+    deck_j1 = lista_decks[0]
+    deck_j2 = lista_decks[1]
+    if jogador_turno == 1:
+        deck_jogador = deck_j1
+    else:
+        deck_jogador = deck_j2
+    for i in range(len(lista_decks[jogador_turno-1])):
+        # Buffando apenas os soldados
+        if deck_jogador[i]["Classe"] != FEITICO:
+            deck_jogador[i]["Ataque"] = deck_jogador[i]["Ataque"] - 6
+            if deck_jogador[i]["Ataque"] < 0:
+                deck_jogador[i]["Ataque"] = 0
+            deck_jogador[i]["Vida"] = deck_jogador[i]["Vida"] - 4
+    return deck_jogador

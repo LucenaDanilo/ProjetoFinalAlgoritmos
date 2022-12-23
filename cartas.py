@@ -115,7 +115,7 @@ alcances = {GUERREIRO: 1, ARQUEIRO: 2, CATAPULTA: 3, GENERAL: 0}
 FEITICO = "Feiticos"
 carta_atacar2 =           {'Classe': FEITICO, 'Nome': 'Furia de um deus', 'Acao': "Enfurece um soldado fazendo com que ele ataque duas vezes"}
 carta_bloqueiaturno =     {'Classe': FEITICO, 'Nome': "Dia da reza", 'Acao': 'Devido ao cansaco, os soldados tiraram um dia pra descansar'}
-carta_invulnerabilidade = {'Classe': FEITICO, 'Nome': "O Protegido", "Acao": 'Invulnerabilidade durante um round (feiticos burlam esse feito)'}
+carta_invulnerabilidade = {'Classe': FEITICO, 'Nome': "O Protegido", "Acao": 'Invulnerabilidade durante um round'}
 carta_danodireto =        {'Classe': FEITICO, 'Nome': 'Nao gostei de voce', 'Acao': 'Causa dano direto as outras cartas em jogo de acordo com sua classe'}
 carta_rageguerreiro =     {'Classe': FEITICO, 'Nome': 'Saco de pancadas', 'Acao': 'Cansado de apanhar o guerreiro decidiu revidar aumentando seu range de acordo com o necessario'}
 
@@ -125,11 +125,11 @@ carta_gustavo, carta_henrique, carta_jessica, carta_iago, carta_joao, carta_luiz
 carta_matheusembarba, carta_mayara, carta_pedro, carta_rafael, carta_policial, carta_symon, carta_thiago, carta_ze,
 carta_atacar2, carta_rageguerreiro, carta_bloqueiaturno, carta_invulnerabilidade, carta_danodireto]
 
-deck = [carta_aeloa, carta_andre, carta_claudia, carta_danilo, carta_davi, carta_euler, 
-carta_gustavo, carta_atacar2]
+#deck = [carta_aeloa, carta_andre, carta_arthur, carta_bruna, carta_claudia, carta_danilo, carta_davi, carta_euler, 
+#carta_invulnerabilidade]
 
 # Instanciando os generais
-vida_generais = 99
+vida_generais = 1
 ataque_generais = 0
 
 general_leonidas = {'Classe': GENERAL, 'Nome': "Rei Leônidas", 'Nome da habilidade': "Grito de Leonidas",

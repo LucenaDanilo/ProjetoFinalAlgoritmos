@@ -1,42 +1,53 @@
-from constantes import cores
+from constantes import CORES
 from time import sleep
 
 def MensagemInicial():
-    print('**************************************************************')
-    print("{}Iniciando o Jogo{}".format(cores["vermelho"], cores["limpa"]))
-    input("Envie qualquer coisa para iniciar! :D"+'\n')
-    print('**************************************************************')
+    print('''
+████████████████████████████████████████████████████████████████████████████████████████████
+█▄─▄─▀█▄─▄▄─█▄─▀█▀─▄███▄─█─▄█▄─▄█▄─▀█▄─▄█▄─▄▄▀█─▄▄─████▀▄─██─▄▄─███▄─▄▄▀█▄─██─▄█▄─▄▄─█▄─▄███
+██─▄─▀██─▄█▀██─█▄█─█████▄▀▄███─███─█▄▀─███─██─█─██─████─▀─██─██─████─██─██─██─███─▄█▀██─██▀█
+▀▄▄▄▄▀▀▄▄▄▄▄▀▄▄▄▀▄▄▄▀▀▀▀▀▄▀▀▀▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▀▀▄▄▄▄▀▀▀▄▄▀▄▄▀▄▄▄▄▀▀▀▄▄▄▄▀▀▀▄▄▄▄▀▀▄▄▄▄▄▀▄▄▄▄▄▀
+███████████████████████████████▀███████████████████████
+█─▄▄▄─██▀▄─██▄─▄▄▀█▄─▄▄▀███─▄▄▄▄██▀▄─██▄─▀█▀─▄█▄─▄▄─█░█
+█─███▀██─▀─███─▄─▄██─██─███─██▄─██─▀─███─█▄█─███─▄█▀█▄█
+▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▀▄▄▀▄▄▄▄▀▀▀▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▀▄▄▄▀▄▄▄▄▄▀▄▀
+    ''')
+    print()
+    print("******************************************")
+    print("{}Iniciando o Jogo{}".format(CORES["vermelho"], CORES["limpa"]))
+    print("{}Envie qualquer coisa para iniciar! :D{}".format(CORES["vermelho"], CORES["limpa"]))
+    input("****************************************** ")
 
 def ReceberNomesJogadores():
-    print("Usuário 1, digite seu nome abaixo"+"\n")
+    print("{}Usuário 1, digite seu nome abaixo{}".format(CORES["cinza"], CORES["limpa"])+"\n")
     while True:
         j1 = input().capitalize()
         if len(j1) > 20:
-            print("Nome muito grande, repita por favor!"+"\n")
+            print("{}Nome muito grande, repita por favor!{}".format(CORES["vermelho"], CORES["limpa"])+"\n")
         elif len(j1) == 0:
-            print("Por favor, insira algum nome"+"\n")
+            print("{}Por favor, insira algum nome{}".format(CORES["vermelho"], CORES["limpa"])+"\n")
         elif j1.isnumeric() == True:
-            print("Por favor, insira um nome com alguma letra!"+"\n")
+            print("{}Por favor, insira um nome com alguma letra!{}".format(CORES["vermelho"], CORES["limpa"])+"\n")
         else:
             break
-    print("Usuário 2, digite seu nome abaixo"+"\n")
+    print("{}Usuário 2, digite seu nome abaixo{}".format(CORES["cinza"], CORES["limpa"])+"\n")
     while True:
         j2 = input().capitalize()
         if len(j2) > 20:
-            print("Nome muito grande, repita por favor!"+"\n")
+            print("{}Nome muito grande, repita por favor!{}".format(CORES["vermelho"], CORES["limpa"])+"\n")
         elif len(j2) == 0:
-            print("Por favor, insira algum nome"+"\n")
+            print("{}Por favor, insira algum nome{}".format(CORES["vermelho"], CORES["limpa"])+"\n")
         elif j2.isnumeric() == True:
-            print("Por favor, insira um nome com alguma letra!"+"\n")
+            print("{}Por favor, insira um nome com alguma letra!{}".format(CORES["vermelho"], CORES["limpa"])+"\n")
         else:
             break
     print("")
-    print("Nomes recebidos com sucesso!")
-    print("Bem vindos, "+j1+' e '+j2+'\n')
+    print("{}Nomes recebidos com sucesso!{}".format(CORES["cinza"], CORES["limpa"]))
+    print("{}Bem vindos, {}".format(CORES["cinza"], CORES["limpa"])+j1+' e '+j2+'\n')
     return [j1, j2]
 
 def PularTutorial():
-    resposta = input("Voce deseja pular o nosso tutorial? (S/N)"+'\n')
+    resposta = input("{}Voce deseja pular o nosso tutorial? (S/N){}".format(CORES["cinza"], CORES["limpa"])+'\n')
     while True:
         if resposta.upper() == 'S':
             print("")
@@ -45,30 +56,29 @@ def PularTutorial():
             print("")
             return False
         else:
-            resposta = input("Por gentileza, envie 'S' para sim ou 'N' para nao"+'\n')
+            resposta = input("{}Por gentileza, envie 'S' para sim ou 'N' para nao{}".format(CORES["vermelho"], CORES["limpa"])+'\n')
 
 def InstrucoesIniciais():
-    input("O nosso jogo eh um jogo de cartas com interações/batalhas dentro de um tabuleiro 5x6")
-    input("Sendo assim, cada jogador terá seu deck de cartas...")
-    input("Cada jogador poderá posicionar suas cartas em campo para duelar com o adversário")
+    input("{}O nosso jogo eh um jogo de cartas com interações/batalhas dentro de um tabuleiro 5x6{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}Sendo assim, cada jogador terá seu deck de cartas...{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}Cada jogador poderá posicionar suas cartas em campo para duelar com o adversário{}".format(CORES["cinza"], CORES["limpa"]))
 
-    print("As unidades, apos posicionadas, atacarao automaticamente ao fim do turno")
-    input("Sendo benefico pra voce ou não! Fique ligado nisso")
-    input("Mais instruções serão dadas a seguir! Não se preocupe!"+"\n")
+    print("{}As unidades, apos posicionadas, atacarao automaticamente ao fim do turno{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}Sendo benefico pra voce ou não! Fique ligado nisso{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}Mais instruções serão dadas a seguir! Não se preocupe!{}".format(CORES["cinza"], CORES["limpa"])+"\n")
 
 def InstrucoesPreJogo():
-    input("O jogo tem tres classes principais de unidades")
-    input("As unidades de ataque corpo a corpo: Guerreiros")
-    input("As unidades de ataque a media distancia: Arqueiros")
-    input("As unidades de ataque a longa distancia: Catapultas")
+    input("{}O jogo tem tres classes principais de unidades{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}As unidades de ataque corpo a corpo: Guerreiros{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}As unidades de ataque a media distancia: Arqueiros{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}As unidades de ataque a longa distancia: Catapultas{}".format(CORES["cinza"], CORES["limpa"]))
     print("")
 
-    input("Por agora, voce apenas precisa saber que cada classe será representada de maneira especifica")
-    input("E que cada classe eh posicionada em um linha especifica do tabuleiro")
-    input("A representacao das classes sera seguinte forma:"+'\n')
-    print("Unidades Guerreiros: G")
-    print("Unidades Arqueiro: A")
-    input("Unidades Catapulta: C")
+    input("{}Por agora, voce apenas precisa saber que cada classe será representada de maneira especifica{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}E que cada classe eh posicionada em um linha especifica do tabuleiro{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}A representacao sera seguinte forma:{}".format(CORES["cinza"], CORES["limpa"])+'\n')
+    print("{}Caso a carta no tabuleiro seja: André | Ataque: 10 | Vida: 50{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}Sua representação será: A 10/50 {}".format(CORES["cinza"], CORES["limpa"]))
 
 def MensagensIniciaisJogo(pulou):
     if pulou:
@@ -80,15 +90,15 @@ def MensagensIniciaisJogo(pulou):
     input()
 
 def MensagemMaoInicial():
-    print("Os decks de ambos os jogadores ja foram embaralhados!")
+    print("{}Os decks de ambos os jogadores ja foram embaralhados!{}".format(CORES["amarelo"], CORES["limpa"]))
     sleep(1)
-    input("Envie qualquer mensagem para dar inicio as distribuicoes das cartas iniciais dos jogadores"+'\n')
+    input("{}Envie qualquer mensagem para dar inicio as distribuicoes das cartas iniciais dos jogadores{}".format(CORES["amarelo"], CORES["limpa"])+'\n')
 
 def mensagem_general1():
         sleep(1)
-        input("Atualmente estamos com 5 generais no jogo, cada qual com sua particularidade")
+        input("{}Atualmente estamos com 5 generais no jogo, cada qual com sua particularidade{}".format(CORES["cinza"], CORES["limpa"]))
         sleep(1)
-        resposta = input("Deseja conhecer um pouco sobre suas funcionalidades? (S/N)""\n")
+        resposta = input("{}Deseja conhecer um pouco sobre suas funcionalidades? (S/N){}".format(CORES["cinza"], CORES["limpa"])+"\n")
         while True:
             if resposta.upper() == 'S':
                 print("")
@@ -97,38 +107,39 @@ def mensagem_general1():
                 print("")
                 return False
             else:
-                resposta = input("Por gentileza, envie 'S' para sim ou 'N' para nao")
+                resposta = input("{}Por gentileza, envie 'S' para sim ou 'N' para nao{}".format(CORES["vermelho"], CORES["limpa"]))
 
 def explicando_generais():
     sleep(1)
-    input("Decidimos que os generais seriam as únicas peças moveis desse card game.""\n"
-          "Eles servirão como tanks do game (70 de vida), e serão úteis em diferentes contextos"
-          " e de diferententes formas.")
-    input("Atualmente temos 5 generais, sendo 3 deles personagens históricos e"
-          " dois deles professores.")
-    input("Os 3 generais históricos possuem certos 'buffs' e 'debuffs' diferentes entre si""\n"
-          "Já os outros dois possuem características compartilhadas.")
+    input("{}Decidimos que os generais seriam as únicas peças moveis desse card game.{}".format(CORES["cinza"], CORES["limpa"])+"\n"
+          "{}Eles servirão como tanks do game (99 de vida), e serão úteis em diferentes contextos{}".format(CORES["cinza"], CORES["limpa"])+
+          "{} e de diferententes formas.{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}Atualmente temos 5 generais, sendo 3 deles personagens históricos e{}".format(CORES["cinza"], CORES["limpa"])+
+          "{} dois deles professores.{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}Os 3 generais históricos possuem certos 'buffs' e 'debuffs' diferentes entre si{}".format(CORES["cinza"], CORES["limpa"])+"\n"
+          "{}Já os outros dois possuem características compartilhadas.{}".format(CORES["cinza"], CORES["limpa"]))
 
-    input("São eles:")
-    input("Alexandre,O Grande e seu poder de ressureição.""\n"
-          "Se sua vida chegar a 0 um dano é infligido diretamente na vida do jogador.")
+    input("{}São eles:{}".format(CORES["cinza"], CORES["limpa"]))
+    input("{}Alexandre, o Grande e seu poder de ressureição.{}".format(CORES["amarelo"], CORES["limpa"])+"\n"
+          "{}Se sua vida chegar a 0 um dano é infligido diretamente na vida do jogador.{}".format(CORES["amarelo"], CORES["limpa"]))
     print()
     sleep(1)
-    input("Rei Lêonidas.""\n""Dá coragem a um guerreiro aumentando seu alcance e seu dano em batalha.""\n"
-          "Se sua vida chegar a zero a coragem dos guerreiros se esvai perdendo vida.")
+    input("{}Rei Lêonidas.{}".format(CORES["amarelo"], CORES["limpa"])+"\n""{}Dá coragem a um guerreiro aumentando seu alcance e seu dano em batalha.{}".format(CORES["amarelo"], CORES["limpa"])+"\n"
+          "{}Se sua vida chegar a zero a coragem dos guerreiros se esvai perdendo vida.{}".format(CORES["amarelo"], CORES["limpa"]))
     print()
     sleep(1)
-    input("Gengis Khan.""\n""Devido a suas invenções, sua presença em campo de batalha dá a chance de um duplo ataque"
-          " dos arqueiros.""\n""Sua morte causa um alto dano à vida do jogador.")
+    input("{}Gengis Khan.{}".format(CORES["amarelo"], CORES["limpa"])+"\n""{}Devido a suas invenções, sua presença em campo de batalha dá a chance de um duplo ataque"
+          " dos arqueiros.{}".format(CORES["amarelo"], CORES["limpa"])+"\n""{}Sua morte causa um alto dano à vida do jogador.{}".format(CORES["amarelo"], CORES["limpa"]))
     print()
     sleep(1)
-    input("Henrique e Iana.""\n""Colocamos os professores de programação como dois dos generais.""\n"
-          "Como as cartas são seus alunos, o buff é aplicado nos alunos que pertecerem a turma "
-          "do professor.""\n""Se a vida chegar a zero o buff é substituido por um debuff de mesmo valor.")
+    input("{}Henrique e Iana.{}".format(CORES["amarelo"], CORES["limpa"])+"\n""{}Colocamos os professores de programação como dois dos generais.{}".format(CORES["amarelo"], CORES["limpa"])+"\n"
+          "{}Como as cartas são seus alunos, o buff é aplicado nos alunos que pertecerem a turma {}".format(CORES["amarelo"], CORES["limpa"])+
+          "{}do professor.{}".format(CORES["amarelo"], CORES["limpa"])+"\n""{}Se a vida chegar a zero o buff é substituido por um debuff de mesmo valor.{}".format(CORES["amarelo"], CORES["limpa"]))
     print()
 
 def MensagemTurno(jogador_turno, lista_nome_jogadores):
-    input(f"Agora é o turno do jogador {jogador_turno+1}: {lista_nome_jogadores[jogador_turno]}"+'\n')
+    input("{}Agora é o turno do jogador {}: {}{}".format(CORES["amarelo"], jogador_turno+1, lista_nome_jogadores[jogador_turno-1], CORES["limpa"])+'\n')
 
 def mensagem_fim_de_jogo(v1, v2):
-    print('Fim de Jogo!')
+    print('{}Fim de Jogo!{}'.format(CORES["verde"], CORES["limpa"]))
+    input("{}Obrigado por jogar nosso jogo! Envie qualquer coisa para encerrar{}".format(CORES["verde"], CORES["limpa"]))

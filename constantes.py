@@ -15,4 +15,4 @@ NOMES_GENERAIS_POSSIVEIS = ["rei leônidas", "rei leonidas", "alexandre o grande
                             "henrique", "iana"]
 NUMERO_GENERAIS_CORRESPODENTES = [4, 4, 3, 3, 2, 1, 0]
 
-cores = {"azul": "\033[1;34m","vermelho": "\033[1;31m","roxo": "\033[1;35m","verde": "\033[1;32m","amarelo": "\033[1;33m","cinza": "\033[1;37m","limpa": "\033[m"}
+CORES = {"azul": "\033[1;34m","vermelho": "\033[1;31m","roxo": "\033[1;35m","verde": "\033[1;32m","amarelo": "\033[1;33m","cinza": "\033[1;37m","limpa": "\033[m"}

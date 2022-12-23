@@ -54,16 +54,32 @@ tabuleiro, matriz_cartas, posicoes_generais = colocar_general(tabuleiro, matriz_
 x_g1, y_g1 = posicoes_generais[0][1], posicoes_generais[0][0]
 x_g2, y_g2 = posicoes_generais[1][1], posicoes_generais[1][0]
 
+# Trabalhando com as passivas dos generais
+if g1["Nome"] == 'Henrique' or g1["Nome"] == 'Iana':
+    deck_j1 = buffar_henrique_iana(listas_decks, 1)
+if g2["Nome"] == 'Henrique' or g2["Nome"] == 'Iana':
+    deck_j2 = buffar_henrique_iana(listas_decks, 2)
+
 # Printando o tabuleiro
 printar_tabuleiro(tabuleiro, j1, j2)
 
 # Dando inicio ao jogo
 jogador_turno = 1
 indice_jogador_turno = 0
+protegeu = False
+g1_morreu = False
+g2_morreu = False
 while True:
     # Segurando um turno ativo da carta 'dia da reza'
     if jogador_turno == 1:
         dia_da_reza = False
+        if protegeu:
+            protegeu = False
+            if carta_protegida["Classe"] == GENERAL:
+                posicionar_general_pos_danos(tabuleiro, matriz_cartas, linha_prot, col_prot, carta_protegida)
+            else: # A carta é um soldado
+                posicionar_pos_danos(tabuleiro, matriz_cartas, linha_prot, col_prot, carta_protegida)
+
 
     # Condição que garante a alternancia entre os jogadores
     if jogador_turno > N_JOGADORES:
@@ -92,7 +108,7 @@ while True:
         elif carta_escolhida["Nome"] == 'Dia da reza':
             dia_da_reza = feitico_dia_da_reza()
         elif carta_escolhida["Nome"] == 'O Protegido':
-            print('hi')
+            matriz_cartas, carta_protegida, protegeu, linha_prot, col_prot = feitico_o_protegido(matriz_cartas, tabuleiro, jogador_turno, j1, j2)
         elif carta_escolhida["Nome"] == 'Nao gostei de voce':
             matriz_cartas,tabuleiro =  feitico_ataque_direto(matriz_cartas, tabuleiro, jogador_turno, j1, j2)
         elif carta_escolhida["Nome"] == 'Saco de pancadas':
@@ -101,11 +117,13 @@ while True:
     # Garantindo que a batalha só acontece após os dois jogadores jogarem
     if jogador_turno == 2:
         # Trabalhando com a posição dos generais pré batalha
-        matriz_cartas, tabuleiro, x_g1, y_g1 = movimenta_general(g1, x_g1, y_g1, matriz_cartas, tabuleiro, 1, j1, j2)
-        matriz_cartas, tabuleiro, x_g2, y_g2 = movimenta_general(g2, x_g2, y_g2, matriz_cartas, tabuleiro, 2, j1, j2)
+        if g1_morreu == False:
+            matriz_cartas, tabuleiro, x_g1, y_g1 = movimenta_general(g1, x_g1, y_g1, matriz_cartas, tabuleiro, 1, j1, j2)
+        if g2_morreu == False:
+            matriz_cartas, tabuleiro, x_g2, y_g2 = movimenta_general(g2, x_g2, y_g2, matriz_cartas, tabuleiro, 2, j1, j2)
 
         if dia_da_reza == False:
-            tabuteiro, matriz_cartas, v1, v2 = Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2)
+            tabuteiro, matriz_cartas, v1, v2, g1_morreu, g2_morreu = batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2, lista_generais, listas_decks, g1_morreu, g2_morreu)
 
     # A única condição do jogo acabar é caso um dos jogadores morra
     if v1 <= 0 or v2 <= 0:
