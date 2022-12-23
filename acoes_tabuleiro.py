@@ -29,7 +29,7 @@ def fazer_matriz_cartas():
 def printar_tabuleiro(tabuleiro, j1, j2):
     numeros_verticais = [3,2,1,1,2,3]
     indice = 0
-    #sleep(2)
+    sleep(1)
     for i in range(len(tabuleiro)):
         if i == 3:
             espacos = " "*43
@@ -82,9 +82,9 @@ def colocar_general(tabuleiro, matriz_cartas, g1, g2):
     d = randrange(5)
 
     # Dando mensagem pro usuário
-    input("Posicionando o general {} do jogador 1".format(g1["Nome"].capitalize())+'\n')
+    print("Posicionando o general {} do jogador 1".format(g1["Nome"].capitalize())+'\n')
     sleep(1)
-    input("Posicionando o general {} do jogador 2".format(g2["Nome"].capitalize())+'\n')
+    print("Posicionando o general {} do jogador 2".format(g2["Nome"].capitalize())+'\n')
     sleep(1)
     
     # Inserindo o general no tabuleiro de visualização
@@ -150,7 +150,7 @@ def posicionar_carta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores,
 
 
     print("Posição Válida! Posicionando sua carta..."+"\n")
-    sleep(2)
+    sleep(1)
     tabuleiro[linha][colunas[col]] = carta_escolhida["Nome"][0]+" "+(" "*ajuste_espaco_branco)+str(carta_escolhida["Ataque"])+"/"+str(carta_escolhida["Vida"])
     matriz_cartas[linha][colunas[col]] = carta_escolhida
     printar_tabuleiro(tabuleiro, j1, j2)
@@ -168,13 +168,13 @@ def posicionar_general_pos_danos(tabuleiro, matriz_cartas, linha, col, g):
     matriz_cartas[linha][col] = g
     return [tabuleiro, matriz_cartas]
 
-def batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2, listas_generais, listas_decks, g1_morreu, g2_morreu):
+def batalhar(tabuleiro, j1, j2, matriz_cartas, v1, v2, listas_generais, listas_decks, g1_morreu, g2_morreu):
     print()
     input("Agora iniciaremos a batalha")
-    #sleep(0.3)
+    sleep(0.3)
     print(f"Vida do jogador 1: {v1}")
-    #sleep(0.3)
-    print(f"Vida do jogador 2: {v2}"+"")
+    sleep(0.3)
+    print(f"Vida do jogador 2: {v2}"+"\n")
 
     cartas_mortas = []
     for row in range(len(tabuleiro)):
@@ -212,7 +212,7 @@ def batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2, listas_generais, listas_de
                                     g1_morreu = True
                                 else:
                                     g2_morreu = True
-                                matriz_cartas = atordoa_general(listas_generais, matriz_cartas, listas_decks, tabuleiro, j1, j2)
+                                matriz_cartas = atordoar_general(listas_generais, matriz_cartas, listas_decks, tabuleiro, j1, j2)
 
                         # O break é necessário, pois, encontrando um inimigo, a carta só ataca 1x
                         break
@@ -239,7 +239,7 @@ def batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2, listas_generais, listas_de
     printar_tabuleiro(tabuleiro, j1, j2)   
     return [tabuleiro, matriz_cartas, v1, v2, g1_morreu, g2_morreu]
 
-def movimenta_general(g, x_g, y_g, matriz_cartas, tabuleiro, jogador_turno, j1, j2):
+def movimentar_general(g, x_g, y_g, matriz_cartas, tabuleiro, jogador_turno, j1, j2):
     # x_g é a posição x do general em indice
     # y_g é a posição y do general em indice
 
@@ -303,7 +303,7 @@ def movimenta_general(g, x_g, y_g, matriz_cartas, tabuleiro, jogador_turno, j1, 
         break
 
     print("Posição válida! Movimentando o seu general")
-    # sleep(1)
+    sleep(0.2)
     # Colocando o general em ambas as matrizes
     tabuleiro[linha][colunas[col]] = 'G. '+g["Nome"][0].upper()+" "+str(g["Vida"])
     matriz_cartas[linha][colunas[col]] = g
@@ -313,6 +313,8 @@ def movimenta_general(g, x_g, y_g, matriz_cartas, tabuleiro, jogador_turno, j1, 
     matriz_cartas[y_g][x_g] = 0
     printar_tabuleiro(tabuleiro, j1, j2)
     return [matriz_cartas, tabuleiro, colunas[col], linha]
+
+#########################################################################################
 
 # Criando os feitiços
 def feitico_ataque_direto(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
@@ -387,6 +389,7 @@ def feitico_ataque_direto(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
 def feitico_dia_da_reza():
     print("Digite a posicao da carta, ex: A1")
     input("Nesse turno não haverá batalha!")
+    sleep(0.5)
     return True
 
 def feitico_atacar_duas_vezes(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
@@ -434,6 +437,7 @@ def feitico_atacar_duas_vezes(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
             break
     
     print("Carta selecionada, ela irá atacar o inimigo mais a frente no seu alcance!")
+    sleep(1)
     
     achou_inimigo = False
     alcance_da_carta_na_posicao = alcances[matriz_cartas[linha][colunas[col]]["Classe"]]
@@ -499,6 +503,7 @@ def feitico_o_protegido(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
             break
     
     print("Carta selecionada, ela não irá sofrer danos esse turno!")
+    sleep(0.5)
     carta_protegida = matriz_cartas[linha][colunas[col]]
 
     # Retirando a carta da matriz_cartas para ela não tomar dano
@@ -512,7 +517,9 @@ def feitico_saco_de_pancadas(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
     print("Digite a posicao da carta, ex: A1")
     posicao = input("Selecione o guerreiro que você deseja que ataque no alcance máximo: 3"+"\n")
 
-# Implementando as passivas dos generaisd
+#########################################################################################
+
+# Implementando as passivas dos generais
 def buffar_henrique_iana(lista_decks, jogador_turno):
     deck_j1 = lista_decks[0]
     deck_j2 = lista_decks[1]
@@ -527,7 +534,85 @@ def buffar_henrique_iana(lista_decks, jogador_turno):
             deck_jogador[i]["Vida"] = deck_jogador[i]["Vida"] + 2
     return deck_jogador
 
-def atordoa_general(lista_generais, matriz_cartas, lista_decks, tabuleiro, j1, j2):
+def verifica_leonidas(j):
+    resposta = input("{}Jogador {}, Voce deseja usar a habilidade do Leonidas? (S/N){}".format(CORES["cinza"], j, CORES["limpa"])+'\n')
+    while True:
+        if resposta.upper() == 'S':
+            print("")
+            return True
+        elif resposta.upper() == 'N':
+            print("")
+            return False
+        else:
+            resposta = input("{}Por gentileza, envie 'S' para sim ou 'N' para nao{}".format(CORES["vermelho"], CORES["limpa"])+'\n')
+
+def buffar_leonidas(tabuleiro, matriz_cartas, j1, j2, jogador_turno):
+    printar_tabuleiro(tabuleiro, j1, j2)
+
+    print("Digite a posicao da carta, ex: A1")
+    posicao = input("Selecione uma carta inimiga para sofrer um dano direto aos seus pontos de vida"+"\n")
+
+    while True:
+        # Conferindo a entrada do usuário
+        if len(posicao) != 2:
+            posicao = input("Por favor, insira uma entrada de tamanho valido"+'\n')
+            continue
+        else:
+            col = posicao[0].upper()
+            row = posicao[1]
+        if col.upper() not in COL_VALIDA:
+            posicao = input("Por favor, uma coluna valida"+'\n')
+            continue
+        elif row not in LINHA_VALIDA:
+            posicao = input("Por favor, insira uma linha valida"+'\n')
+            continue
+        
+        # Ajustando para o j1 e j2
+        if jogador_turno == 2:
+            if int(row) == 1:
+                linha = 2
+            elif int(row) == 2:
+                linha = 1
+            else:
+                linha = 0
+        else:
+            if int(row) == 1:
+                linha = 3
+            elif int(row) == 2:
+                linha = 4
+            else:
+                linha = 5
+
+        colunas = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
+        if matriz_cartas[linha][colunas[col]] == 0:
+            posicao = input(f"Não existe uma carta nessa posicao, por gentileza insira outra posição"+'\n')
+            continue
+        else:
+            break
+        
+    print("Carta selecionada, ela irá atacar com o dobro de dano esse round")
+    sleep(1)
+    
+    achou_inimigo = False
+    alcance_da_carta_na_posicao = alcances[matriz_cartas[linha][colunas[col]]["Classe"]]
+    for i in range(alcance_da_carta_na_posicao):
+        if linha < 3: # A carta atacante é do j1
+            linha_interesse = 3+i
+        else:       # A carta atacante é do j2
+            linha_interesse = 2-i
+
+        carta_inimiga = matriz_cartas[linha_interesse][colunas[col]]
+        if carta_inimiga != 0: # Tem um inimigo ali
+            achou_inimigo = True
+            # O atacante inflige dano no atacado
+            matriz_cartas[linha_interesse][colunas[col]]["Vida"] -= matriz_cartas[linha][colunas[col]]["Ataque"]
+
+    if achou_inimigo == False:
+        print('Infelizmente, não havia ninguém no alcance, sua carta não atacou ninguém')
+
+    return [matriz_cartas, tabuleiro]
+        
+def atordoar_general(lista_generais, matriz_cartas, lista_decks, tabuleiro, j1, j2):
     g1 = lista_generais[0]
     g2 = lista_generais[1]
     for i in range(len(lista_generais)):
@@ -539,9 +624,9 @@ def atordoa_general(lista_generais, matriz_cartas, lista_decks, tabuleiro, j1, j
                     if matriz_cartas[2][c] != 0:
                         matriz_cartas[2][c]["Vida"] = matriz_cartas[2][c]["Vida"] - 15
             if g1["Nome"] == "Gengis Khan":
-                vida_j1 = vida_j1 - 50
+                vida_j2 = vida_j2 + 40
             if g1["Nome"] == "Iana" or g1["Nome"] == "Henrique":
-                atordoa_henrique_iana(lista_decks, 1)
+                atordoar_henrique_iana(lista_decks, 1)
         else:
             if g2["Nome"] == "Alexandre, o Grande":
                 vida_j2 = vida_j2 - 30
@@ -550,13 +635,13 @@ def atordoa_general(lista_generais, matriz_cartas, lista_decks, tabuleiro, j1, j
                     if matriz_cartas[3][c] != 0:
                         matriz_cartas[3][c]["Vida"] = matriz_cartas[3][c]["Vida"] - 15
             if g2["Nome"] == "Gengis Khan":
-                vida_j2 = vida_j2 - 50
+                vida_j1 = vida_j1 + 40
             if g2["Nome"] == "Iana" or g2["Nome"] == "Henrique":
-                atordoa_henrique_iana(lista_decks, 2)
+                atordoar_henrique_iana(lista_decks, 2)
     printar_tabuleiro(tabuleiro, j1, j2)
     return matriz_cartas
 
-def atordoa_henrique_iana(lista_decks, jogador_turno):
+def atordoar_henrique_iana(lista_decks, jogador_turno):
     deck_j1 = lista_decks[0]
     deck_j2 = lista_decks[1]
     if jogador_turno == 1:

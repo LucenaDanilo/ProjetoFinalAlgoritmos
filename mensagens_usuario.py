@@ -1,7 +1,7 @@
 from constantes import CORES
 from time import sleep
 
-def MensagemInicial():
+def mensagem_inicial():
     print('''
 ████████████████████████████████████████████████████████████████████████████████████████████
 █▄─▄─▀█▄─▄▄─█▄─▀█▀─▄███▄─█─▄█▄─▄█▄─▀█▄─▄█▄─▄▄▀█─▄▄─████▀▄─██─▄▄─███▄─▄▄▀█▄─██─▄█▄─▄▄─█▄─▄███
@@ -129,7 +129,7 @@ def explicando_generais():
     print()
     sleep(1)
     input("{}Gengis Khan.{}".format(CORES["amarelo"], CORES["limpa"])+"\n""{}Devido a suas invenções, sua presença em campo de batalha dá a chance de um duplo ataque"
-          " dos arqueiros.{}".format(CORES["amarelo"], CORES["limpa"])+"\n""{}Sua morte causa um alto dano à vida do jogador.{}".format(CORES["amarelo"], CORES["limpa"]))
+          " dos arqueiros.{}".format(CORES["amarelo"], CORES["limpa"])+"\n""{}Cura a vida do jogador adversário.{}".format(CORES["amarelo"], CORES["limpa"]))
     print()
     sleep(1)
     input("{}Henrique e Iana.{}".format(CORES["amarelo"], CORES["limpa"])+"\n""{}Colocamos os professores de programação como dois dos generais.{}".format(CORES["amarelo"], CORES["limpa"])+"\n"
@@ -140,6 +140,12 @@ def explicando_generais():
 def MensagemTurno(jogador_turno, lista_nome_jogadores):
     input("{}Agora é o turno do jogador {}: {}{}".format(CORES["amarelo"], jogador_turno+1, lista_nome_jogadores[jogador_turno-1], CORES["limpa"])+'\n')
 
-def mensagem_fim_de_jogo(v1, v2):
+def mensagem_fim_de_jogo(v1, v2, j1, j2):
     print('{}Fim de Jogo!{}'.format(CORES["verde"], CORES["limpa"]))
+    if v1 > 0:
+        print('🅟🅐🅡🅐🅑🅔🅝🅢❗')
+        print('{}Parabéns ao Jogador 1: {}{}'.format(CORES["verde"], j1, CORES["limpa"]))
+    else:
+        print('🅟🅐🅡🅐🅑🅔🅝🅢❗')
+        print('{}Parabéns ao Jogador 2: {}{}'.format(CORES["verde"], j2, CORES["limpa"]))
     input("{}Obrigado por jogar nosso jogo! Envie qualquer coisa para encerrar{}".format(CORES["verde"], CORES["limpa"]))

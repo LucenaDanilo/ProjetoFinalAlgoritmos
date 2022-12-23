@@ -4,32 +4,29 @@ from mensagens_usuario import *
 from constantes import *
 
 # Iniciando o Jogo
-MensagemInicial()
+mensagem_inicial()
 
 # Recebendo o nome dos jogadores
-j1: str = 'Danilo'
-j2: str = 'Andre'
-
-#j1, j2 = ReceberNomesJogadores()
+j1, j2 = ReceberNomesJogadores()
 nomes_jogadores = (j1, j2)
 
 # Dando a opção de pular o tutorial
-#pular = PularTutorial()
+pular = PularTutorial()
 
 # Passando algumas informações importantes para os jogadores
-#if pular == False:
-#    InstrucoesIniciais()
-#    InstrucoesPreJogo()
+if pular == False:
+    InstrucoesIniciais()
+    InstrucoesPreJogo()
 
 # Iniciando a vida dos jogadores
 v1, v2 = VIDA_INICIAL_JOGADORES, VIDA_INICIAL_JOGADORES
 
 # Apresentando a opção de conhecer os generais
-#conhecer_generais = mensagem_general1()
+conhecer_generais = mensagem_general1()
 
 # Passando informações sobre os generais se solicitado
-#if conhecer_generais:
-#    explicando_generais()
+if conhecer_generais:
+    explicando_generais()
 
 # Retirando os decks do j1 e j2 a partir de um deck base
 deck_jogo = deck
@@ -55,9 +52,9 @@ x_g1, y_g1 = posicoes_generais[0][1], posicoes_generais[0][0]
 x_g2, y_g2 = posicoes_generais[1][1], posicoes_generais[1][0]
 
 # Trabalhando com as passivas dos generais
-if g1["Nome"] == 'Henrique' or g1["Nome"] == 'Iana':
+if g1["Nome"] == HENRIQUE or g1["Nome"] == IANA:
     deck_j1 = buffar_henrique_iana(listas_decks, 1)
-if g2["Nome"] == 'Henrique' or g2["Nome"] == 'Iana':
+if g2["Nome"] == HENRIQUE or g2["Nome"] == IANA:
     deck_j2 = buffar_henrique_iana(listas_decks, 2)
 
 # Printando o tabuleiro
@@ -69,6 +66,8 @@ indice_jogador_turno = 0
 protegeu = False
 g1_morreu = False
 g2_morreu = False
+contador_leonidas1 = 0
+contador_leonidas2 = 0
 while True:
     # Segurando um turno ativo da carta 'dia da reza'
     if jogador_turno == 1:
@@ -103,27 +102,41 @@ while True:
     if carta_escolhida["Classe"] != FEITICO:
         tabuleiro, matriz_cartas = posicionar_carta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas)
     else: # O usuário selecionou um feitiço
-        if carta_escolhida["Nome"] == 'Furia de um deus':
+        if carta_escolhida["Nome"] == FURIA:
             matriz_cartas, tabuleiro = feitico_atacar_duas_vezes(matriz_cartas, tabuleiro, jogador_turno, j1, j2)
-        elif carta_escolhida["Nome"] == 'Dia da reza':
+        elif carta_escolhida["Nome"] == BLOQUEIA:
             dia_da_reza = feitico_dia_da_reza()
-        elif carta_escolhida["Nome"] == 'O Protegido':
+        elif carta_escolhida["Nome"] == INVULNERAVEL:
             matriz_cartas, carta_protegida, protegeu, linha_prot, col_prot = feitico_o_protegido(matriz_cartas, tabuleiro, jogador_turno, j1, j2)
-        elif carta_escolhida["Nome"] == 'Nao gostei de voce':
+        elif carta_escolhida["Nome"] == DANO_DIRETO:
             matriz_cartas,tabuleiro =  feitico_ataque_direto(matriz_cartas, tabuleiro, jogador_turno, j1, j2)
-        elif carta_escolhida["Nome"] == 'Saco de pancadas':
-            print('hoho')
+        elif carta_escolhida["Nome"] == RAGE_GUERREIRO:
+            feitico_saco_de_pancadas(matriz_cartas, tabuleiro, jogador_turno, j1, j2)
+
+    # Dando a opção da passiva leonidas
+    if contador_leonidas1 >= 3:
+        if g1["Nome"] == LEONIDAS and jogador_turno == 1:
+            resposta_leonidas = verifica_leonidas(2)
+            if resposta_leonidas == True:
+                buffar_leonidas(tabuleiro, matriz_cartas, j1, j2, jogador_turno)
+                contador_leonidas1 = 0
+    if contador_leonidas2 >= 3:
+        if g2["Nome"] == LEONIDAS and jogador_turno == 2:
+            resposta_leonidas = verifica_leonidas(1)
+            if resposta_leonidas == True:
+                buffar_leonidas(tabuleiro, matriz_cartas, j1, j2, jogador_turno)
+                contador_leonidas2 = 0
 
     # Garantindo que a batalha só acontece após os dois jogadores jogarem
-    if jogador_turno == 2:
+    if jogador_turno == N_JOGADORES:
         # Trabalhando com a posição dos generais pré batalha
         if g1_morreu == False:
-            matriz_cartas, tabuleiro, x_g1, y_g1 = movimenta_general(g1, x_g1, y_g1, matriz_cartas, tabuleiro, 1, j1, j2)
+            matriz_cartas, tabuleiro, x_g1, y_g1 = movimentar_general(g1, x_g1, y_g1, matriz_cartas, tabuleiro, 1, j1, j2)
         if g2_morreu == False:
-            matriz_cartas, tabuleiro, x_g2, y_g2 = movimenta_general(g2, x_g2, y_g2, matriz_cartas, tabuleiro, 2, j1, j2)
+            matriz_cartas, tabuleiro, x_g2, y_g2 = movimentar_general(g2, x_g2, y_g2, matriz_cartas, tabuleiro, 2, j1, j2)
 
         if dia_da_reza == False:
-            tabuteiro, matriz_cartas, v1, v2, g1_morreu, g2_morreu = batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2, lista_generais, listas_decks, g1_morreu, g2_morreu)
+            tabuteiro, matriz_cartas, v1, v2, g1_morreu, g2_morreu = batalhar(tabuleiro, j1, j2, matriz_cartas, v1, v2, lista_generais, listas_decks, g1_morreu, g2_morreu)
 
     # A única condição do jogo acabar é caso um dos jogadores morra
     if v1 <= 0 or v2 <= 0:
@@ -131,5 +144,7 @@ while True:
 
     jogador_turno += 1
     indice_jogador_turno += 1
+    contador_leonidas1 += 1
+    contador_leonidas2 += 1
 
-mensagem_fim_de_jogo(v1, v2)
+mensagem_fim_de_jogo(v1, v2, j1, j2)
