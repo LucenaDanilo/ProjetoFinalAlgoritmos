@@ -2,7 +2,7 @@ from time import sleep
 from constantes import * 
 from acoes_deck import alcances
 from random import randrange
-from cartas import GENERAL
+from cartas import GENERAL, ARQUEIRO, GUERREIRO, CATAPULTA
 
 # FAZ A MATRIZ DO TABULEIRO
 def fazer_tabuleiro():
@@ -31,7 +31,9 @@ def printar_tabuleiro(tabuleiro, j1, j2):
     for i in range(len(tabuleiro)):
         if i == 3:
             espacos = " "*43
-            print(f"{espacos}{j1} \n{espacos}  x\n{espacos}{j2}")
+            print("{}{}{}{}".format(cores["verde"], espacos, j1, cores["limpa"]))
+            print("{}  x".format(espacos))
+            print("{}{}{}{}".format(cores["azul"],espacos,j2,cores["limpa"]))
             print("――――――――――――――――――――――――"*3)
         if i == 0:
             print("     Colunas   ", end="")
@@ -40,15 +42,26 @@ def printar_tabuleiro(tabuleiro, j1, j2):
             print("――――――――――――――――――――――――"*3)
         for c in range(5):
             if c == 0:
-                print(f"Número da linha ({numeros_verticais[indice]}) | ", end="")
-                indice += 1
-                print(tabuleiro[i][c], end=" | ")
+                if i >= 3:
+                    print(f"Número da linha ({numeros_verticais[indice]}) | ", end="")
+                    indice += 1
+                    print("{}{}{}".format(cores["azul"], tabuleiro[i][c], cores["limpa"]), end=" | ")
+                else:
+                    print(f"Número da linha ({numeros_verticais[indice]}) | ", end="")
+                    indice += 1
+                    print("{}{}{}".format(cores["verde"], tabuleiro[i][c], cores["limpa"]), end=" | ")
             elif c<4:
-                print(tabuleiro[i][c], end=" | ")
+                if i >= 3:
+                    print("{}{}{}".format(cores["azul"], tabuleiro[i][c], cores["limpa"]), end=" | ")
+                else:
+                    print("{}{}{}".format(cores["verde"], tabuleiro[i][c], cores["limpa"]), end=" | ")
             else:
-
-                print(tabuleiro[i][c], end="")
-                print(" |")
+                if i >= 3:
+                    print("{}{}{}".format(cores["azul"], tabuleiro[i][c], cores["limpa"]), end="")
+                    print(" |")
+                else:
+                    print("{}{}{}".format(cores["verde"], tabuleiro[i][c], cores["limpa"]), end="")
+                    print(" |")
 
         print("――――――――――――――――――――――――"*3)
         if i == 5:
@@ -216,6 +229,9 @@ def Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2):
 def movimenta_general(g, x_g, y_g, matriz_cartas, tabuleiro, jogador_turno, j1, j2):
     # x_g é a posição x do general em indice
     # y_g é a posição y do general em indice
+
+    printar_tabuleiro(tabuleiro, j1, j2)
+
     lista_jogadores = [j1, j2]
     print("Insira a coluna e a linha, ex: A1")
     posicao = input("{}, para qual posição você deseja mover seu general?".format(lista_jogadores[jogador_turno-1])+"\n")
@@ -284,3 +300,142 @@ def movimenta_general(g, x_g, y_g, matriz_cartas, tabuleiro, jogador_turno, j1, 
     matriz_cartas[y_g][x_g] = 0
     printar_tabuleiro(tabuleiro, j1, j2)
     return [matriz_cartas, tabuleiro, colunas[col], linha]
+
+# Criando os feitiços
+def feitico_ataque_direto(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
+    input("Você selecionou o feitiço: Não gostei de você")
+    input("Para cada classe ele difere um dano diferente, sendo assim:"+"\n")
+    print("Guerreiros: Sofrem 35 de dano")
+    print("Arqueiros: Sofrem 15 de dano")
+    print("Catapultas: Sofrem 16 de dano")
+    print("General: Sofrem 50 de dano"+"\n")
+
+    printar_tabuleiro(tabuleiro, j1, j2)
+
+    print("Digite a posicao da carta, ex: A1")
+    posicao = input("Selecione uma carta inimiga para sofrer um dano direto aos seus pontos de vida"+"\n")
+
+    while True:
+        # Conferindo a entrada do usuário
+        if len(posicao) != 2:
+            posicao = input("Por favor, insira uma entrada de tamanho valido"+'\n')
+            continue
+        else:
+            col = posicao[0].upper()
+            row = posicao[1]
+        if col.upper() not in COL_VALIDA:
+            posicao = input("Por favor, uma coluna valida"+'\n')
+            continue
+        elif row not in LINHA_VALIDA:
+            posicao = input("Por favor, insira uma linha valida"+'\n')
+            continue
+        
+        # Ajustando para o j1 e j2
+        if jogador_turno == 2:
+            if int(row) == 1:
+                linha = 2
+            elif int(row) == 2:
+                linha = 1
+            else:
+                linha = 0
+        else:
+            if int(row) == 1:
+                linha = 3
+            elif int(row) == 2:
+                linha = 4
+            else:
+                linha = 5
+
+        colunas = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
+        if matriz_cartas[linha][colunas[col]] == 0:
+            posicao = input(f"Não existe uma carta nessa posicao, por gentileza insira outra posição"+'\n')
+            continue
+        else:
+            break
+
+    # Encontrando a classe para aplicar o dano correspondente
+    if matriz_cartas[linha][colunas[col]]["Classe"] == GUERREIRO:
+        matriz_cartas[linha][colunas[col]]["Vida"] -= 35
+    elif matriz_cartas[linha][colunas[col]]["Classe"] == ARQUEIRO:
+        matriz_cartas[linha][colunas[col]]["Vida"] -= 15
+    elif matriz_cartas[linha][colunas[col]]["Classe"] == CATAPULTA:
+        matriz_cartas[linha][colunas[col]]["Vida"] -= 16
+    else: # O inimigo é um general
+        matriz_cartas[linha][colunas[col]]["Vida"] -= 50
+
+    if matriz_cartas[linha][colunas[col]]["Classe"] != GENERAL:
+        posicionar_pos_danos(tabuleiro, matriz_cartas, linha, colunas[col], matriz_cartas[linha][colunas[col]])
+    else:
+        posicionar_general_pos_danos(tabuleiro, matriz_cartas, linha, colunas[col], matriz_cartas[linha][colunas[col]])
+    
+    printar_tabuleiro(tabuleiro, j1, j2)
+    return [matriz_cartas, tabuleiro]
+
+def feitico_dia_da_reza():
+    input("Nesse turno não haverá batalha!")
+    return True
+
+def feitico_atacar_duas_vezes(matriz_cartas, tabuleiro, jogador_turno, j1, j2):
+
+    printar_tabuleiro(tabuleiro, j1, j2)
+    posicao = input("Selecione a carta que você deseja que ataque duas vezes!"+"\n")
+
+    # Verificando se a posição que o usuário informou está correta
+    while True:
+        if len(posicao) != 2:
+            posicao = input("Por favor, insira uma entrada de tamanho valido"+'\n')
+            continue
+        else:
+            col = posicao[0].upper()
+            row = posicao[1]
+        if col.upper() not in COL_VALIDA:
+            posicao = input("Por favor, uma coluna valida"+'\n')
+            continue
+        elif row not in LINHA_VALIDA:
+            posicao = input("Por favor, insira uma linha valida"+'\n')
+            continue
+        
+        # Ajustando para o j1 e j2
+        if jogador_turno == 1:
+            if int(row) == 1:
+                linha = 2
+            elif int(row) == 2:
+                linha = 1
+            else:
+                linha = 0
+        else:
+            if int(row) == 1:
+                linha = 3
+            elif int(row) == 2:
+                linha = 4
+            else:
+                linha = 5
+
+        colunas = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4}
+
+        if matriz_cartas[linha][colunas[col]] == 0:
+            posicao = input(f"Posição inválida, não há cartas nesse local!"+'\n')
+            continue
+        else:
+            break
+    
+    print("Carta selecionada, ela irá atacar o inimigo mais a frente no seu alcance!")
+    
+    achou_inimigo = False
+    alcance_da_carta_na_posicao = alcances[matriz_cartas[linha][colunas[col]]["Classe"]]
+    for i in range(alcance_da_carta_na_posicao):
+        if linha < 3: # A carta atacante é do j1
+            linha_interesse = 3+i
+        else:       # A carta atacante é do j2
+            linha_interesse = 2-i
+
+        carta_inimiga = matriz_cartas[linha_interesse][colunas[col]]
+        if carta_inimiga != 0: # Tem um inimigo ali
+            achou_inimigo = True
+            # O atacante inflige dano no atacado
+            matriz_cartas[linha_interesse][colunas[col]]["Vida"] -= matriz_cartas[linha][colunas[col]]["Ataque"]
+
+    if achou_inimigo == False:
+        print('Infelizmente, não havia ninguém no alcance, sua carta não atacou ninguém')
+
+    return [matriz_cartas, tabuleiro]

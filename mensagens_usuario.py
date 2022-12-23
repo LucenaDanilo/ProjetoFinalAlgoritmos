@@ -1,8 +1,11 @@
+from constantes import cores
 from time import sleep
 
 def MensagemInicial():
-    print("Iniciando o Jogo"+"\n")
+    print('**************************************************************')
+    print("{}Iniciando o Jogo{}".format(cores["vermelho"], cores["limpa"]))
     input("Envie qualquer coisa para iniciar! :D"+'\n')
+    print('**************************************************************')
 
 def ReceberNomesJogadores():
     print("Usuário 1, digite seu nome abaixo"+"\n")

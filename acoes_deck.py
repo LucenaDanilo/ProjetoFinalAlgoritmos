@@ -21,9 +21,6 @@ def gerar_deck_jogador(deck, nome_jogador):
     #sleep(2)
     return deck_jogador
 
-#deck_jogador1 = GerarDeckJogador(deck, j1)
-# print(deck_jogador1)
-
 # A função GerarMãoInicial retira do deck 5 cartas para o jogador iniciar seu jogo
 def gerar_mao_inicial(deck_jogador, n_cartas, nome_jogador):
     mao_inicial = deepcopy(deck_jogador[0:n_cartas])
@@ -33,16 +30,6 @@ def gerar_mao_inicial(deck_jogador, n_cartas, nome_jogador):
     print('A mao inicial do jogador '+nome_jogador+' foi entregue!'+"\n")
 
     return [mao_inicial, deck_jogador]
-
-'''
-As duas linhas abaixo são responsáveis por receber o retorno da função GerarMãoInicial
-e para printar a mensagem apenas uma vez, optei por criar uma variavel chamada "vetor_mao_inicial_e_deck_atual"
-que é uma lista com os dois valores, depois atribuo esses valores para as variaveis de interesse
-'''
-#vetor_mao_inicial_e_deck_atual = GerarMãoInicial(deck_jogador1, N_CARTAS_INICIAL, j1)
-#mao_inicial, deck_atual = vetor_mao_inicial_e_deck_atual[0], vetor_mao_inicial_e_deck_atual[1]
-
-#print(deck_atual)
 
 # A função abaixo mostra a mão atual de maneira mais amigável
 def apresentar_mao_atual(mao_atual, nome_jogador):
@@ -85,29 +72,38 @@ def ReceberCartaEscolhida(mao_atual, nome_jogador):
     print("Voce escolheu a carta: "+carta_jogada["Nome"])
     return carta_jogada
 
-def escolher_general(generais):
-
+def escolher_general():
     general_escolhidos = []
     input("Atualmente temos 5 generais por favor escolha um a seguir:""\n")
     print("Você pode escolher digitando o nome dele ou o seu numero.")
     #sleep(1)
     for i in range(len(deck_generais)):
-        print(deck_generais[i]["Nome"], end=" " )
-        print(f"e seu numero de escolha é {i+1} ")
+        print(f"{i+1} -", end=" " )
+        print(deck_generais[i]["Nome"])
         #sleep(1)
     for c in range(2):
         while True:
+            deck_general = deepcopy(deck_generais)
             entrada = input("Por favor, insira um nome ou numero válido:""\n").strip().lower()
             if entrada in NUMERO_GENERAIS_POSSIVEIS:
-                general_escolhido = deck_generais[int(entrada)-1]
+                general_escolhido = deck_general[int(entrada)-1]
                 general_escolhidos.append(general_escolhido)
+                print(f"General n. {c+1} escolhido!"+"\n")
                 break
             elif entrada in NOMES_GENERAIS_POSSIVEIS:
                 a = NOMES_GENERAIS_POSSIVEIS.index(entrada)
                 b = NUMERO_GENERAIS_CORRESPODENTES[a]
-                general_escolhido = deck_generais[b]
+                general_escolhido = deck_general[b]
                 general_escolhidos.append(general_escolhido)
+                print(f"General n. {c+1} escolhido!"+"\n")
+                break
             else:
-                input("Véi um nome de genereal valido ou um numero de um a cinco, por favor")
+                input("Véi um nome de general válido ou um numero de um a cinco, por favor")
                 'sleep(1)'
     return general_escolhidos
+
+
+'''
+# danilo tem    que escolher o gurreiro antes e checar se tem inimigo serÃ¡ o mesmo esquema do rei leonidas
+def range_guerreiro(localizacao_inimigo, localizacao_cartaescolhida):
+    matriz_cartas[localizacao_inimigo]["Vida"] = matriz_cartas[localizacao_inimigo]["Vida"] - (matriz_cartas[localizacao_cartaescolhida]["Ataque"]+ 5)'''

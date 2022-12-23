@@ -4,7 +4,7 @@ from mensagens_usuario import *
 from constantes import *
 
 # Iniciando o Jogo
-#MensagemInicial()
+MensagemInicial()
 
 # Recebendo o nome dos jogadores
 j1: str = 'Danilo'
@@ -25,7 +25,6 @@ nomes_jogadores = (j1, j2)
 v1, v2 = VIDA_INICIAL_JOGADORES, VIDA_INICIAL_JOGADORES
 
 # Apresentando a opção de conhecer os generais
-#sleep(1)
 #conhecer_generais = mensagem_general1()
 
 # Passando informações sobre os generais se solicitado
@@ -49,18 +48,23 @@ tabuleiro = fazer_tabuleiro()
 matriz_cartas = fazer_matriz_cartas()
 
 # Selecionando e inserindo os generais no jogo
-g1 = general_henrique
-g2 = general_iana
+lista_generais = escolher_general()
+g1, g2 = lista_generais[0], lista_generais[1]
 tabuleiro, matriz_cartas, posicoes_generais = colocar_general(tabuleiro, matriz_cartas, g1, g2)
 x_g1, y_g1 = posicoes_generais[0][1], posicoes_generais[0][0]
 x_g2, y_g2 = posicoes_generais[1][1], posicoes_generais[1][0]
-lista_generais = [g1, g2]
+
+# Printando o tabuleiro
 printar_tabuleiro(tabuleiro, j1, j2)
 
 # Dando inicio ao jogo
 jogador_turno = 1
 indice_jogador_turno = 0
 while True:
+    # Segurando um turno ativo da carta 'dia da reza'
+    if jogador_turno == 1:
+        dia_da_reza = False
+
     # Condição que garante a alternancia entre os jogadores
     if jogador_turno > N_JOGADORES:
         jogador_turno = 1
@@ -75,22 +79,33 @@ while True:
     # Dando início ao turno, sacando e apresentando a mão atual do jogador da vez
     MensagemTurno(indice_jogador_turno, nomes_jogadores)
 
-
     listas_maos[indice_jogador_turno], listas_decks[indice_jogador_turno] = Sacar(listas_maos[indice_jogador_turno], listas_decks[indice_jogador_turno], nome_jogador)
     apresentar_mao_atual(listas_maos[indice_jogador_turno], nome_jogador)
 
     # Recebendo a carta e posicionando ela no tabuleiro
     carta_escolhida = ReceberCartaEscolhida(listas_maos[indice_jogador_turno], nome_jogador)
-    tabuleiro, matriz_cartas = posicionar_carta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas)
+    if carta_escolhida["Classe"] != FEITICO:
+        tabuleiro, matriz_cartas = posicionar_carta(carta_escolhida, jogador_turno, tabuleiro, nomes_jogadores, matriz_cartas)
+    else: # O usuário selecionou um feitiço
+        if carta_escolhida["Nome"] == 'Furia de um deus':
+            matriz_cartas, tabuleiro = feitico_atacar_duas_vezes(matriz_cartas, tabuleiro, jogador_turno, j1, j2)
+        elif carta_escolhida["Nome"] == 'Dia da reza':
+            dia_da_reza = feitico_dia_da_reza()
+        elif carta_escolhida["Nome"] == 'O Protegido':
+            print('hi')
+        elif carta_escolhida["Nome"] == 'Nao gostei de voce':
+            matriz_cartas,tabuleiro =  feitico_ataque_direto(matriz_cartas, tabuleiro, jogador_turno, j1, j2)
+        elif carta_escolhida["Nome"] == 'Saco de pancadas':
+            print('hoho')
 
-   
     # Garantindo que a batalha só acontece após os dois jogadores jogarem
     if jogador_turno == 2:
         # Trabalhando com a posição dos generais pré batalha
         matriz_cartas, tabuleiro, x_g1, y_g1 = movimenta_general(g1, x_g1, y_g1, matriz_cartas, tabuleiro, 1, j1, j2)
         matriz_cartas, tabuleiro, x_g2, y_g2 = movimenta_general(g2, x_g2, y_g2, matriz_cartas, tabuleiro, 2, j1, j2)
 
-        tabuteiro, matriz_cartas, v1, v2 = Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2)
+        if dia_da_reza == False:
+            tabuteiro, matriz_cartas, v1, v2 = Batalha(tabuleiro, j1, j2, matriz_cartas, v1, v2)
 
     # A única condição do jogo acabar é caso um dos jogadores morra
     if v1 <= 0 or v2 <= 0:
